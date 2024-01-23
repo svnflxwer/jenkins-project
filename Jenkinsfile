@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script {
                     def scriptPath = "${WORKSPACE}\\monitor_cron_jobs.py"
-                    def scriptOutput = bat(script: "python ${scriptPath}", returnStdout: true).trim()
+                    def scriptOutput = sh(script: "python ${scriptPath}", returnStdout: true).trim()
                     echo "Python Script Output:\n${scriptOutput}"
 
                     // Extract the JSON portion from the script output
