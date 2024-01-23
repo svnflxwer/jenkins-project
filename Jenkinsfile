@@ -14,10 +14,20 @@ pipeline {
                     // Tambahkan perintah untuk memberikan izin eksekusi pada skrip Python
                     sh "chmod +x ${WORKSPACE}/monitor_cron_jobs.py"
 
-                    // Tambahkan jalur lengkap ke interpreter Python di Jenkins WSL
+                    // Aktifkan virtual environment (venv)
+                    sh "python3 -m venv venv"
+                    sh "source venv/bin/activate"
+
+                    // Install dependensi Python
+                    sh "pip3 install -r ${WORKSPACE}/requirements.txt"
+
+                    // Jalankan skrip Python
                     def scriptPath = "${WORKSPACE}/monitor_cron_jobs.py"
                     def scriptOutput = sh(script: "python3 ${scriptPath}", returnStdout: true).trim()
                     echo "Python Script Output:\n${scriptOutput}"
+
+                    // Deaktivasi virtual environment setelah selesai
+                    sh "deactivate"
 
                     // Extract the JSON portion from the script output
                     def startIndex = scriptOutput.indexOf('[')
@@ -36,6 +46,7 @@ pipeline {
                 }
             }
         }
+
 
 
 
