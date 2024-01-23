@@ -11,12 +11,12 @@ pipeline {
         stage('Monitor CRON Jobs') {
             steps {
                 script {
-                    
                     // Tambahkan perintah untuk memberikan izin eksekusi pada skrip Python
                     sh "chmod +x ${WORKSPACE}/monitor_cron_jobs.py"
 
+                    // Tambahkan jalur lengkap ke interpreter Python di Jenkins WSL
                     def scriptPath = "${WORKSPACE}/monitor_cron_jobs.py"
-                    def scriptOutput = sh(script: "/usr/bin/python ${scriptPath}", returnStdout: true).trim()
+                    def scriptOutput = sh(script: "/usr/bin/python3 /var/lib/jenkins/workspace/trial/monitor_cron_jobs.py", returnStdout: true).trim()
                     echo "Python Script Output:\n${scriptOutput}"
 
                     // Extract the JSON portion from the script output
@@ -36,6 +36,7 @@ pipeline {
                 }
             }
         }
+
 
         stage('Send Email Notifications') {
             steps {
