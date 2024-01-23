@@ -11,11 +11,12 @@ pipeline {
         stage('Monitor CRON Jobs') {
             steps {
                 script {
+                    
                     // Tambahkan perintah untuk memberikan izin eksekusi pada skrip Python
                     sh "chmod +x ${WORKSPACE}/monitor_cron_jobs.py"
 
                     def scriptPath = "${WORKSPACE}/monitor_cron_jobs.py"
-                    def scriptOutput = sh(script: "python ${scriptPath}", returnStdout: true).trim()
+                    def scriptOutput = sh(script: "/usr/bin/python ${scriptPath}", returnStdout: true).trim()
                     echo "Python Script Output:\n${scriptOutput}"
 
                     // Extract the JSON portion from the script output
