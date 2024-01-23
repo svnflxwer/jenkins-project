@@ -4,10 +4,10 @@ import json
 def check_cron_jobs_status():
     # Database connection parameters
     db_params = {
-        'database': 'postgres',
-        'user': 'postgres',
-        'password': '123456',
-        'host': 'localhost',
+        'database': 'dummydb',
+        'user': 'jenkins_user',
+        'password': 'dummyDB',
+        'host': '172.28.144.49',
         'port': '5432'
     }
 
