@@ -15,23 +15,23 @@ def check_cron_jobs_status():
     connection = psycopg2.connect(**db_params)
     cursor = connection.cursor()
 
-    # Query to select job_name and is_online from the cron_jobs table
-    query = "SELECT job_name, is_online FROM cron_jobs"
+    # Query 
+    query = "SELECT kode_pegawai, nama, jabatan FROM Karyawan"
 
     # Create a list to store the names of offline jobs
-    offline_jobs = []
+    karyawan = []
 
     try:
         cursor.execute(query)
         records = cursor.fetchall()
 
         for record in records:
-            job_name, is_online = record
-            if not is_online:
-                offline_jobs.append(job_name)  # Add the offline job name to the list
+            nama, kode_pegawai ,jabatan = record
+            if not nama:
+                karyawan.append(nama)
 
         # Return the list of offline jobs as a JSON string
-        return json.dumps(offline_jobs)
+        return json.dumps(karyawan)
 
     except Exception as e:
         return json.dumps({"error": str(e)})
@@ -40,5 +40,5 @@ def check_cron_jobs_status():
         connection.close()
 
 if __name__ == "__main__":
-    offline_jobs = check_cron_jobs_status()
-    print(offline_jobs)
+    karyawan = check_cron_jobs_status()
+    print(karyawan)
