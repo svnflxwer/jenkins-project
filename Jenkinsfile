@@ -16,7 +16,7 @@ pipeline {
 
                     // Aktifkan virtual environment (venv)
                     sh "python3 -m venv venv"
-                    sh "source venv/bin/activate"
+                    sh "venv/bin/activate"
 
                     // Install dependensi Python
                     sh "pip3 install -r ${WORKSPACE}/requirements.txt"
@@ -25,9 +25,6 @@ pipeline {
                     def scriptPath = "${WORKSPACE}/monitor_cron_jobs.py"
                     def scriptOutput = sh(script: "python3 ${scriptPath}", returnStdout: true).trim()
                     echo "Python Script Output:\n${scriptOutput}"
-
-                    // Deaktivasi virtual environment setelah selesai
-                    sh "deactivate"
 
                     // Extract the JSON portion from the script output
                     def startIndex = scriptOutput.indexOf('[')
@@ -46,6 +43,7 @@ pipeline {
                 }
             }
         }
+
 
 
 
