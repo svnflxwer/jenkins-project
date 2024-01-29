@@ -19,7 +19,7 @@ pipeline {
                     sh ". venv/bin/activate"
 
                     // Install dependensi Python
-                    sh "sudo pip3 install -r ${WORKSPACE}/requirements.txt"
+                    sh "pip3 install -r ${WORKSPACE}/requirements.txt"
 
                     // Jalankan skrip Python
                     def scriptPath = "${WORKSPACE}/monitor_cron_jobs.py"
