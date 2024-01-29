@@ -16,7 +16,7 @@ pipeline {
 
                     // Aktifkan virtual environment (venv)
                     sh "python3 -m venv venv"
-                    sh "source venv/bin/activate"
+                    sh ". venv/bin/activate"
 
                     // Install dependensi Python
                     sh "sudo pip3 install -r ${WORKSPACE}/requirements.txt"
