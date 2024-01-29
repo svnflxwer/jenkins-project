@@ -7,7 +7,7 @@ def check_cron_jobs_status():
         'database': 'dummydb',
         'user': 'jenkins_user',
         'password': 'dummyDB',
-        'host': '172.28.144.83',
+        'host': 'localhost',
         'port': '5432'
     }
 
