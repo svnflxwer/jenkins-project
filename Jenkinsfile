@@ -16,7 +16,7 @@ pipeline {
 
                     // Aktifkan virtual environment (venv)
                     sh "python3 -m venv myenv"
-                    sh "source ${WORKSPACE}/myenv/bin/activate"
+                    sh ". ${WORKSPACE}/myenv/bin/activate"
                     sh "export PATH=$PATH:${WORKSPACE}/myenv/bin"
 
                     // Install Python dependencies and pip
