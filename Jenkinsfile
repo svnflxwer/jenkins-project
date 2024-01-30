@@ -18,7 +18,9 @@ pipeline {
                     sh "python3 -m venv myenv"
                     sh ". myenv/bin/activate"
 
-                    // Install dependensi Python
+                    // Install Python dependencies and pip
+                    sh "python -m ensurepip"
+                    sh "python -m pip install --upgrade pip"
                     sh "pip install -r ${WORKSPACE}/requirements.txt"
 
                     // Jalankan skrip Python
