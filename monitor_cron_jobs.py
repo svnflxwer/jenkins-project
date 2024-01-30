@@ -26,7 +26,7 @@ def check_cron_jobs_status():
         records = cursor.fetchall()
 
         for record in records:
-            nama, kode_pegawai ,jabatan = record
+            kode_pegawai, nama ,jabatan = record
             if nama:
                 karyawan.append(nama)
 
