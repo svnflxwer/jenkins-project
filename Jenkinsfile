@@ -19,7 +19,6 @@ pipeline {
                     sh ". myenv/bin/activate"
 
                     // Install Python dependencies and pip
-                    sh "python3 -m ensurepip"
                     sh "python3 -m pip install --upgrade pip"
                     sh "pip install -r ${WORKSPACE}/requirements.txt"
 
