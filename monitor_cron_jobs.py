@@ -27,7 +27,7 @@ def check_cron_jobs_status():
 
         for record in records:
             nama, kode_pegawai ,jabatan = record
-            if not nama:
+            if nama:
                 karyawan.append(nama)
 
         # Return the list of offline jobs as a JSON string
