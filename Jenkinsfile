@@ -11,17 +11,20 @@ pipeline {
         stage('Monitor CRON Jobs') {
             steps {
                 script {
+                    // Set PATH globally
+                    def workspaceBin = "${WORKSPACE}/myenv/bin"
+                    env.PATH = "${workspaceBin}:${env.PATH}"
+
                     // Tambahkan perintah untuk memberikan izin eksekusi pada skrip Python
                     sh "chmod +x ${WORKSPACE}/monitor_cron_jobs.py"
 
                     // Aktifkan virtual environment (venv)
-                    sh "python3 -m venv myenv"
+                    sh "python3 -m venv ${WORKSPACE}/myenv"
                     sh ". ${WORKSPACE}/myenv/bin/activate"
-                    sh "export PATH=$PATH:${WORKSPACE}/myenv/bin"
 
                     // Install Python dependencies and pip
-                    sh "pip install --upgrade pip"
-                    sh "pip install -r ${WORKSPACE}/requirements.txt"
+                    sh "python3 -m pip install --upgrade pip"
+                    sh "python3 -m pip install -r ${WORKSPACE}/requirements.txt"
 
                     // Jalankan skrip Python
                     def scriptPath = "${WORKSPACE}/monitor_cron_jobs.py"
@@ -45,8 +48,6 @@ pipeline {
                 }
             }
         }
-
-
 
 
 
