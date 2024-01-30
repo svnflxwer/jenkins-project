@@ -15,11 +15,11 @@ pipeline {
                     sh "chmod +x ${WORKSPACE}/monitor_cron_jobs.py"
 
                     // Aktifkan virtual environment (venv)
-                    sh "python3 -m venv venv"
+                    sh "python3 -m venv myenv"
                     sh ". venv/bin/activate"
 
                     // Install dependensi Python
-                    sh "pip3 install -r ${WORKSPACE}/requirements.txt"
+                    sh "pip install -r ${WORKSPACE}/requirements.txt"
 
                     // Jalankan skrip Python
                     def scriptPath = "${WORKSPACE}/monitor_cron_jobs.py"
