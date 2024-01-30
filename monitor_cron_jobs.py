@@ -5,8 +5,8 @@ def check_cron_jobs_status():
     # Database connection parameters
     db_params = {
         'database': 'dummydb',
-        'user': 'jenkins_user',
-        'password': 'dummyDB',
+        'user': 'postgres',
+        'password': 'sinatriaba',
         'host': 'localhost',
         'port': '5432'
     }
@@ -16,7 +16,7 @@ def check_cron_jobs_status():
     cursor = connection.cursor()
 
     # Query 
-    query = "SELECT kode_pegawai, nama, jabatan FROM Karyawan"
+    query = "SELECT kode_karyawan, nama, jabatan FROM karyawan"
 
     # Create a list to store the names of offline jobs
     karyawan = []
