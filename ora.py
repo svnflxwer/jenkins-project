@@ -13,7 +13,7 @@ def check_cron_jobs_status_ora():
     db_params_ora  = {
         'user'      : 'system',
         'password'  : 'sinatriaba',
-        'dsn'       : 'localhost:1521/XE'
+        'dsn'       : 'dsa:1521/XE'
     }
 
     # Create a list to store the names of offline jobs
