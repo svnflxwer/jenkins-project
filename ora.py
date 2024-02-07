@@ -5,8 +5,9 @@ def check_cron_jobs_status_ora():
     lib_dir = r"/home/sinatriaba/instantclient_11_2"
     print("ARCH:", platform.architecture())
     print("FILES AT lib_dir:")
-    for name in os.listdir(lib_dir):
-        print(name)
+    for root, dirs, files in os.walk(lib_dir):
+        for name in files:
+            print(os.path.join(root, name))
     cx_Oracle.init_oracle_client(config_dir="/mnt/d/MAGANG-SINAT/oracle-database-xe-11g/app/oracle/product/11.2.0/server/network/ADMIN")
     # Database connection parameters
     db_params_ora  = {
