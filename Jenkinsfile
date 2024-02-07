@@ -18,7 +18,7 @@ pipeline {
                     // Tambahkan perintah untuk memberikan izin eksekusi pada skrip Python
                     sh "chmod +x ${WORKSPACE}/monitor_cron_jobs.py"
                     sh "chmod +x ${WORKSPACE}/ora.py"
-                    sh "sudo chmod +r /home/sinatriaba/instantclient_11_2"
+                    sh "chmod +r /home/sinatriaba/instantclient_11_2"
 
                     // Aktifkan virtual environment (venv)
                     sh "python3 -m venv ${WORKSPACE}/myenv"
