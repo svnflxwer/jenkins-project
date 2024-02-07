@@ -32,7 +32,7 @@ pipeline {
 
                     // Aktifkan virtual environment (venv)
                     sh "python3 -m venv ${WORKSPACE}/myenv"
-                    sh ". ${WORKSPACE}/myenv/bin/activate"
+                    sh "source ${WORKSPACE}/myenv/bin/activate"
 
                     // Install Python dependencies and pip
                     sh "python3 -m pip install --upgrade pip"
