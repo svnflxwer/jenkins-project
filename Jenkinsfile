@@ -8,7 +8,7 @@ pipeline {
         TNS_ADMIN = '/mnt/d/MAGANG-SINAT/oracle-database-xe-11g/app/oracle/product/11.2.0/server/network/ADMIN'
 
         // Append values to existing PATH
-        PATH = "${PATH}:${PATH_EXTRA}"
+        // PATH = "${PATH}:${PATH_EXTRA}"
     }
 
     stages {
@@ -32,7 +32,7 @@ pipeline {
 
                     // Aktifkan virtual environment (venv)
                     sh "python3 -m venv ${WORKSPACE}/myenv"
-                    sh "source ${WORKSPACE}/myenv/bin/activate"
+                    sh ". ${WORKSPACE}/myenv/bin/activate"
 
                     // Install Python dependencies and pip
                     sh "python3 -m pip install --upgrade pip"
