@@ -35,7 +35,7 @@ pipeline {
                     sh ". ${WORKSPACE}/myenv/bin/activate"
 
                     // Install Python dependencies and pip
-                    sh "python3 -m pip install --upgrade pip"
+                    // sh "python3 -m pip install --upgrade pip"
                     sh "python3 -m pip install -r ${WORKSPACE}/requirements.txt"
 
                     // Jalankan skrip Python
