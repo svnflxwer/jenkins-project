@@ -26,6 +26,10 @@ pipeline {
                     sh "python3 -m pip install --upgrade pip"
                     sh "python3 -m pip install -r ${WORKSPACE}/requirements.txt"
 
+                    // Konfigurasi Oracle Instant Client
+                    // sh "export LD_LIBRARY_PATH=/mnt/d/MAGANG-SINAT/instantclient_12_2:$LD_LIBRARY_PATH"
+                    // sh "export PATH=$PATH:/mnt/d/MAGANG-SINAT/instantclient_12_2"   
+
                     // Jalankan skrip Python
                     def scriptPath = "${WORKSPACE}/monitor_cron_jobs.py"
                     def scriptOutput = sh(script: "python3 ${scriptPath}", returnStdout: true).trim()
