@@ -61,7 +61,7 @@ def check_cron_jobs_status_ora():
         cursor_ora      = connection_ora.cursor()
 
         # Query 
-        query_ora  = "SELECT kode_karyawan, nama, jabatan FROM karyawan"
+        query_ora  = "SELECT KODE_KARYAWAN, NAMA, JABATAN FROM KARYAWAN"
         cursor_ora.execute(query_ora)
 
         # Fetch all records from Oracle
