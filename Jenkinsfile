@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     environment {
-        LD_LIBRARY_PATH='/home/sinatriaba/instantclient_11_2:$LD_LIBRARY_PATH'
-        PATH=$PATH:'/home/sinatriaba/instantclient_11_2'
-        TNS_ADMIN='/mnt/d/MAGANG-SINAT/oracle-database-xe-11g/app/oracle/product/11.2.0/server/network/ADMIN'
+        LD_LIBRARY_PATH ='/home/sinatriaba/instantclient_11_2:$LD_LIBRARY_PATH'
+        PATH            ='$PATH:/home/sinatriaba/instantclient_11_2'
+        TNS_ADMIN       ='/mnt/d/MAGANG-SINAT/oracle-database-xe-11g/app/oracle/product/11.2.0/server/network/ADMIN'
     }
 
     stages {
