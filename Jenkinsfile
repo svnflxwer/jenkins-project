@@ -24,6 +24,9 @@ pipeline {
                     // Set PATH globally
                     def workspaceBin = "${WORKSPACE}/myenv/bin"
                     env.PATH = "${workspaceBin}:${env.PATH}"
+                    // Set LD_LIBRARY_PATH
+                    env.LD_LIBRARY_PATH = "/home/sinatriaba/instantclient_11_2:${env.LD_LIBRARY_PATH}"
+
 
                     // Tambahkan perintah untuk memberikan izin eksekusi pada skrip Python
                     sh "chmod +x ${WORKSPACE}/monitor_cron_jobs.py"
