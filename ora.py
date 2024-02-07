@@ -21,7 +21,9 @@ def check_cron_jobs_status_ora():
 
     try:
         # Connect to the database
+        print("MASUK  KE ORACLE...")
         connection_ora  = cx_Oracle.connect(**db_params_ora)
+        print(connection_ora)
         cursor_ora      = connection_ora.cursor()
         # Query 
         query_ora  = "SELECT KODE_KARYAWAN, NAMA, JABATAN FROM KARYAWAN"
