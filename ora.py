@@ -2,7 +2,7 @@ import cx_Oracle
 import json
 import os
 def check_cron_jobs_status_ora():
-    os.environ["DPI_DEBUG_LEVEL"] = "64"
+    cx_Oracle.init_oracle_client(config_dir="/mnt/d/MAGANG-SINAT/oracle-database-xe-11g/app/oracle/product/11.2.0/server/network/ADMIN")
     # Database connection parameters
     db_params_ora  = {
         'user'      : 'system',
