@@ -26,7 +26,7 @@ def check_cron_jobs_status_ora():
         print(connection_ora)
         cursor_ora      = connection_ora.cursor()
         # Query 
-        query_ora  = "SELECT KODE_KARYAWAN, NAMA, JABATAN FROM KARYAWAN"
+        query_ora  = "SELECT KODE_PEGAWAI, NAMA, JABATAN FROM KARYAWAN"
         cursor_ora.execute(query_ora)
 
         # Fetch all records from Oracle
