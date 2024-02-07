@@ -27,8 +27,10 @@ pipeline {
                     sh "python3 -m pip install -r ${WORKSPACE}/requirements.txt"
 
                     // Konfigurasi Oracle Instant Client
-                    sh "export LD_LIBRARY_PATH=/mnt/d/MAGANG-SINAT/instantclient_12_2:$LD_LIBRARY_PATH"
-                    sh "export PATH=$PATH:/mnt/d/MAGANG-SINAT/instantclient_12_2"   
+                    sh "export LD_LIBRARY_PATH=/home/sinatriaba/instantclient_11_2:$LD_LIBRARY_PATH"
+                    sh "export PATH=$PATH:/home/sinatriaba/instantclient_11_2"
+                    sh "export TNS_ADMIN=/mnt/d/MAGANG-SINAT/oracle-database-xe-11g/app/oracle/product/11.2.0/server/network/ADMIN"
+
 
                     // Jalankan skrip Python
                     def scriptPath = "${WORKSPACE}/monitor_cron_jobs.py"
