@@ -1,7 +1,8 @@
 import cx_Oracle
 import json
-
+import os
 def check_cron_jobs_status_ora():
+    os.environ["DPI_DEBUG_LEVEL"] = "64"
     # Database connection parameters
     db_params_ora  = {
         'user'      : 'system',
