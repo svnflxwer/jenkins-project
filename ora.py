@@ -26,8 +26,8 @@ def check_cron_jobs_status_ora():
 
         for record in records_ora:
             kode_pegawai, nama, jabatan = record
-            if kode_pegawai:
-                karyawan_ora.append(kode_pegawai)
+            if nama:
+                karyawan_ora.append(nama)
 
         # Return the list of offline jobs as a JSON string
         return json.dumps(karyawan_ora)

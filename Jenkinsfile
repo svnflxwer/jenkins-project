@@ -17,6 +17,7 @@ pipeline {
 
                     // Tambahkan perintah untuk memberikan izin eksekusi pada skrip Python
                     sh "chmod +x ${WORKSPACE}/monitor_cron_jobs.py"
+                    sh "chmod +x ${WORKSPACE}/ora.py"
 
                     // Aktifkan virtual environment (venv)
                     sh "python3 -m venv ${WORKSPACE}/myenv"
@@ -27,37 +28,43 @@ pipeline {
                     sh "python3 -m pip install -r ${WORKSPACE}/requirements.txt"
 
                     // Jalankan skrip Python
-                    def scriptPath = "${WORKSPACE}/monitor_cron_jobs.py"
-                    def scriptOutput = sh(script: "python3 ${scriptPath}", returnStdout: true).trim()
-                    echo "Python Script Output:\n${scriptOutput}"
+                    def scriptPathPg = "${WORKSPACE}/monitor_cron_jobs.py"
+                    def scriptOutputPg = sh(script: "python3 ${scriptPathPg}", returnStdout: true).trim()
+                    echo "Python Script Postgre SQL Output:\n${scriptOutputPg}"
+
+                    def scriptPathOra = "${WORKSPACE}/ora.py"
+                    def scriptOutputOra = sh(script: "python3 ${scriptPathOra}", returnStdout: true).trim()
+                    echo "Python Script Oracle Output:\n${scriptOutputOra}"
 
                     // Extract the JSON portion from the script output
-                    def startIndex = scriptOutput.indexOf('[')
-                    def endIndex = scriptOutput.lastIndexOf(']')
-                    def jsonOutput = scriptOutput.substring(startIndex, endIndex + 1)
+                    // Postgre
+                    def startIndexPg = scriptOutputPg.indexOf('[')
+                    def endIndexPg = scriptOutputPg.lastIndexOf(']')
+                    def jsonOutputPg = scriptOutputPg.substring(startIndexPg, endIndexPg + 1)
+                    // Extract the JSON portion from the script output
+
+                    // Oracle
+                    def startIndexOra = scriptOutputOra.indexOf('[')
+                    def endIndexOra = scriptOutputOra.lastIndexOf(']')
+                    def jsonOutputOra = scriptOutputOra.substring(startIndexOra, endIndexOra + 1)
 
                     // Parse the JSON output from the Python script
-                    def jsonData = readJSON text: jsonOutput
-                    def offlineJobs = jsonData as List<String>
+                    def jsonDataPg = readJSON text: jsonOutputPg
+                    def offlineJobsPg = jsonDataPg as List<String>
 
+                    def jsonDataOra = readJSON text: jsonOutputOra
+                    def offlineJobsOra = jsonDataOra as List<String>
+                    
                     // Iterate over offline jobs
-                    for (def jobName : offlineJobs) {
-                        echo "Offline Job: ${jobName}"
+                    for (def jobNamePg : offlineJobsPg) {
+                        echo "Offline Job (Postgre): ${jobNamePg}"
                     }
-                    currentBuild.description = jsonData as String
-                }
-            }
-        }
-
-        stage('Execute SQLPlus') {
-            steps {
-                // Menjalankan sqlplus untuk menjalankan skrip Python
-                script {
-                    def cmd = "sqlplus system/sinatriaba@localhost:1521/XE @ora.py"
-                    def process = cmd.execute()
-                    process.waitFor()
-                    println "Exit code: ${process.exitValue()}"
-                    println "Output: ${process.text}"
+                    currentBuild.description = jsonDataPg as String
+                    
+                    for (def jobNameOra : offlineJobsOra) {
+                        echo "Offline Job (Postgre): ${jobNameOra}"
+                    }
+                    currentBuild.description = jsonDataOra as String
                 }
             }
         }
