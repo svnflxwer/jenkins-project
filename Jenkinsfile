@@ -1,15 +1,15 @@
 pipeline {
     agent any
 
-    environment {
-        // Set environment variables
-        // LD_LIBRARY_PATH = '/home/sinatriaba/instantclient_11_2'
-        // PATH = "/home/sinatriaba/instantclient_11_2:${PATH}"
-        // TNS_ADMIN = '/mnt/d/MAGANG-SINAT/oracle-database-xe-11g/app/oracle/product/11.2.0/server/network/ADMIN'
+    // environment {
+    //     // Set environment variables
+    //     LD_LIBRARY_PATH = '/home/sinatriaba/instantclient_11_2'
+    //     PATH = "/home/sinatriaba/instantclient_11_2:${PATH}"
+    //     TNS_ADMIN = '/mnt/d/MAGANG-SINAT/oracle-database-xe-11g/app/oracle/product/11.2.0/server/network/ADMIN'
    
-        // Append values to existing PATH
-        // PATH = "${PATH}:${PATH_EXTRA}"
-    }
+    //     // Append values to existing PATH
+    //     // PATH = "${PATH}:${PATH_EXTRA}"
+    // }
 
     stages {
         stage('Checkout Code') {
