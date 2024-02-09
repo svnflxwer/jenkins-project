@@ -21,18 +21,14 @@ pipeline {
                     env.PATH = "${workspaceBin}:${env.PATH}"
                     
                     // Set environment variables
-                    //sh 'export LD_LIBRARY_PATH=/home/sinatriaba/instantclient_11_2:$LD_LIBRARY_PATH'
                     sh 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}'
                     sh 'export ORACLE_HOME=${ORACLE_HOME}'
                     sh 'export PATH=${ORACLE_HOME}:${PATH}'
                     sh 'export TNS_ADMIN=/mnt/d/MAGANG-SINAT/oracle-database-xe-11g/app/oracle/product/11.2.0/server/network/ADMIN'
-                    // sh 'export TNS_ADMIN=/var/lib/jenkins/workspace/trial/instantclient_11_2'
 
                     // Tambahkan perintah untuk memberikan izin eksekusi pada skrip Python
                     sh "chmod +x ${WORKSPACE}/monitor_cron_jobs.py"
                     sh "chmod +x ${WORKSPACE}/ora.py"
-                    // sh "chmod +rx /home/sinatriaba/instantclient_11_2/libclntsh.so"
-                    // sh "chmod +r /home/sinatriaba/instantclient_11_2"
 
                     // Aktifkan virtual environment (venv)
                     sh "python3 -m venv ${WORKSPACE}/myenv"
