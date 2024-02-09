@@ -13,6 +13,13 @@ pipeline {
             }
         }
 
+        stage('Create Data Directory') {
+            steps {
+                // Membuat folder dataCsvTemp jika belum ada
+                sh 'mkdir -p /var/lib/jenkins/dataCsvTemp'
+            }
+        }
+
         stage('Monitor CRON Jobs') {
             steps {
                 script {
@@ -43,7 +50,7 @@ pipeline {
                     def scriptPathOra = "${WORKSPACE}/selectOra.py"
                     def scriptOutputOra = sh(script: "${WORKSPACE}/myenv/bin/python ${scriptPathOra}", returnStdout: true).trim()
                     echo "Python Script Oracle Output:\n${scriptOutputOra}"
-                    
+
                     def scriptPathPg = "${WORKSPACE}/insertPG.py"
                     def scriptOutputPg = sh(script: "${WORKSPACE}/myenv/bin/python ${scriptPathPg}", returnStdout: true).trim()
                     echo "Python Script Postgre SQL Output:\n${scriptOutputPg}"
