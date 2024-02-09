@@ -69,12 +69,12 @@ pipeline {
                     
                     // Iterate over offline jobs
                     for (def jobNamePg : offlineJobsPg) {
-                        echo "Offline Job (Postgre): ${jobNamePg}"
+                        echo "Get Names (Postgre): ${jobNamePg}"
                     }
                     currentBuild.description = jsonDataPg as String
                     
                     for (def jobNameOra : offlineJobsOra) {
-                        echo "Offline Job (Postgre): ${jobNameOra}"
+                        echo "Get Names (Oracle): ${jobNameOra}"
                     }
                     currentBuild.description = jsonDataOra as String
                 }
