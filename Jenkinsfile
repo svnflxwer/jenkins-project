@@ -1,15 +1,10 @@
 pipeline {
     agent any
 
-    // environment {
-    //     // Set environment variables
-    //     LD_LIBRARY_PATH = '/home/sinatriaba/instantclient_11_2'
-    //     PATH = "/home/sinatriaba/instantclient_11_2:${PATH}"
-    //     TNS_ADMIN = '/mnt/d/MAGANG-SINAT/oracle-database-xe-11g/app/oracle/product/11.2.0/server/network/ADMIN'
-   
-    //     // Append values to existing PATH
-    //     // PATH = "${PATH}:${PATH_EXTRA}"
-    // }
+    environment {
+        LD_LIBRARY_PATH = '/var/lib/jenkins/workspace/trial/instantclient_11_2'
+        ORACLE_HOME     = '/var/lib/jenkins/workspace/trial/instantclient_11_2'
+    }
 
     stages {
         stage('Checkout Code') {
@@ -27,9 +22,9 @@ pipeline {
                     
                     // Set environment variables
                     //sh 'export LD_LIBRARY_PATH=/home/sinatriaba/instantclient_11_2:$LD_LIBRARY_PATH'
-                    sh 'export LD_LIBRARY_PATH=/var/lib/jenkins/workspace/trial/instantclient_11_2'
-                    sh 'export ORACLE_HOME=/var/lib/jenkins/workspace/trial/instantclient_11_2'
-                    sh 'export PATH=/var/lib/jenkins/workspace/trial/instantclient_11_2'
+                    sh 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}'
+                    sh 'export ORACLE_HOME=${ORACLE_HOME}'
+                    sh 'export PATH=${ORACLE_HOME}:${PATH}'
                     sh 'export TNS_ADMIN=/mnt/d/MAGANG-SINAT/oracle-database-xe-11g/app/oracle/product/11.2.0/server/network/ADMIN'
                     // sh 'export TNS_ADMIN=/var/lib/jenkins/workspace/trial/instantclient_11_2'
 
