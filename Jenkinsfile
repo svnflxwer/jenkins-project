@@ -3,10 +3,10 @@ pipeline {
 
     environment {
         // Set environment variables
-        LD_LIBRARY_PATH = '/home/sinatriaba/instantclient_11_2:$LD_LIBRARY_PATH'
-        PATH_EXTRA = '/home/sinatriaba/instantclient_11_2'
+        LD_LIBRARY_PATH = '/home/sinatriaba/instantclient_11_2'
+        PATH = '/home/sinatriaba/instantclient_11_2:' + sh(script: 'echo $PATH', returnStdout: true).trim()
         TNS_ADMIN = '/mnt/d/MAGANG-SINAT/oracle-database-xe-11g/app/oracle/product/11.2.0/server/network/ADMIN'
-
+    
         // Append values to existing PATH
         // PATH = "${PATH}:${PATH_EXTRA}"
     }
@@ -24,9 +24,11 @@ pipeline {
                     // Set PATH globally
                     def workspaceBin = "${WORKSPACE}/myenv/bin"
                     env.PATH = "${workspaceBin}:${env.PATH}"
-                    // Set LD_LIBRARY_PATH
-                    env.LD_LIBRARY_PATH = "/home/sinatriaba/instantclient_11_2:${env.LD_LIBRARY_PATH}"
-
+                    
+                    // Set environment variables
+                    sh 'export LD_LIBRARY_PATH=/home/sinatriaba/instantclient_11_2:$LD_LIBRARY_PATH'
+                    sh 'export PATH=$PATH:/home/sinatriaba/instantclient_11_2'
+                    sh 'export TNS_ADMIN=/mnt/d/MAGANG-SINAT/oracle-database-xe-11g/app/oracle/product/11.2.0/server/network/ADMIN'
 
                     // Tambahkan perintah untuk memberikan izin eksekusi pada skrip Python
                     sh "chmod +x ${WORKSPACE}/monitor_cron_jobs.py"
