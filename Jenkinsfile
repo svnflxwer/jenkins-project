@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        LD_LIBRARY_PATH = '/var/lib/jenkins/workspace/trial/instantclient_11_2'
-        ORACLE_HOME     = '/var/lib/jenkins/workspace/trial/instantclient_11_2'
+        LD_LIBRARY_PATH = '/var/lib/jenkins/instantclient_11_2'
+        ORACLE_HOME     = '/var/lib/jenkins/instantclient_11_2'
     }
 
     stages {
@@ -24,11 +24,11 @@ pipeline {
                     sh 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}'
                     sh 'export ORACLE_HOME=${ORACLE_HOME}'
                     sh 'export PATH=${ORACLE_HOME}:${PATH}'
-                    sh 'export TNS_ADMIN=/mnt/d/MAGANG-SINAT/oracle-database-xe-11g/app/oracle/product/11.2.0/server/network/ADMIN'
+                    sh 'export TNS_ADMIN=${ORACLE_HOME}/network/ADMIN'
 
                     // Tambahkan perintah untuk memberikan izin eksekusi pada skrip Python
-                    sh "chmod +x ${WORKSPACE}/monitor_cron_jobs.py"
-                    sh "chmod +x ${WORKSPACE}/ora.py"
+                    sh "chmod +x ${WORKSPACE}/insertPG.py"
+                    sh "chmod +x ${WORKSPACE}/selectOra.py"
 
                     // Aktifkan virtual environment (venv)
                     sh "python3 -m venv ${WORKSPACE}/myenv"
@@ -39,13 +39,14 @@ pipeline {
                     sh "${WORKSPACE}/myenv/bin/pip install -r ${WORKSPACE}/requirements.txt"
 
                     // Jalankan skrip Python
-                    def scriptPathPg = "${WORKSPACE}/monitor_cron_jobs.py"
-                    def scriptOutputPg = sh(script: "${WORKSPACE}/myenv/bin/python ${scriptPathPg}", returnStdout: true).trim()
-                    echo "Python Script Postgre SQL Output:\n${scriptOutputPg}"
 
-                    def scriptPathOra = "${WORKSPACE}/ora.py"
+                    def scriptPathOra = "${WORKSPACE}/selectOra.py"
                     def scriptOutputOra = sh(script: "${WORKSPACE}/myenv/bin/python ${scriptPathOra}", returnStdout: true).trim()
                     echo "Python Script Oracle Output:\n${scriptOutputOra}"
+                    
+                    def scriptPathPg = "${WORKSPACE}/insertPG.py"
+                    def scriptOutputPg = sh(script: "${WORKSPACE}/myenv/bin/python ${scriptPathPg}", returnStdout: true).trim()
+                    echo "Python Script Postgre SQL Output:\n${scriptOutputPg}"
 
 
                     // Extract the JSON portion from the script output
