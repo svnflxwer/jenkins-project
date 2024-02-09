@@ -1,7 +1,45 @@
-import psycopg2
-import json
+import psycopg2, csv, json
 
-def check_cron_jobs_status_pg():
+def insert_data_to_pg(p_directory, p_filename):
+    # Database connection parameters
+    db_params_pg = {
+        'database': 'dummydb',
+        'user': 'postgres',
+        'password': 'sinatriaba',
+        'host': 'localhost',
+        'port': '5432'
+    }
+
+    try:
+        # Connect to the database
+        print("MASUK KE POSTGRE...")
+        connection_pg = psycopg2.connect(**db_params_pg)
+        cursor_pg = connection_pg.cursor()
+
+        # Open the CSV file for reading
+        with open(f"{p_directory}/{p_filename}", newline='') as csvfile:
+            reader = csv.reader(csvfile)
+            # Skip the header
+            next(reader, None)
+            # Iterate over each row in the CSV file
+            for row in reader:
+                kode_karyawan, nama, jabatan = row
+                # Perform the insert operation
+                cursor_pg.execute("INSERT INTO karyawan_it (kode_karyawan, nama, jabatan) VALUES (%s, %s, %s)", (kode_karyawan, nama, jabatan))
+
+        # Commit the transaction
+        connection_pg.commit()
+        print("Data inserted successfully to PostgreSQL.")
+
+    except Exception as e:
+        print(f"Error inserting data to PostgreSQL: {e}")
+        connection_pg.rollback()
+
+    finally:
+        cursor_pg.close()
+        connection_pg.close()
+
+def cek_data_pg():
     # Database connection parameters
     db_params_pg  = {
         'database'  : 'dummydb',
@@ -16,19 +54,11 @@ def check_cron_jobs_status_pg():
 
     try:
         # Connect to the database
-        print("MASUK KE POSTGRE...")
         connection_pg   = psycopg2.connect(**db_params_pg)
         cursor_pg       = connection_pg .cursor()
 
         # Query 
-        query_pg        = """
-                            SELECT
-                                kode_karyawan,
-                                nama,
-                                jabatan
-                            FROM
-                                karyawan
-                        """
+        query_pg        = "SELECT kode_karyawan, nama, jabatan FROM karyawan_it"
         cursor_pg.execute(query_pg )
         
         # Fetch all records from PostgreSQL
@@ -52,8 +82,11 @@ def check_cron_jobs_status_pg():
 
 
 if __name__ == "__main__":
-    karyawan_pg     = check_cron_jobs_status_pg()
+    v_directory   = "/var/lib/jenkins/dataCsvTemp"
+    v_filename    = "ora_to_post.csv"
+    insert_data_to_pg(v_directory, v_filename)
     
-    # Print the results
-    print("PostgreSQL Result:")
+    karyawan_pg  =  cek_data_pg()
+
+    print("Postgre Result:")
     print(karyawan_pg)
