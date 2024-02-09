@@ -37,20 +37,21 @@ pipeline {
 
                     // Aktifkan virtual environment (venv)
                     sh "python3 -m venv ${WORKSPACE}/myenv"
-                    sh ". /var/lib/jenkins/workspace/trial/myenv/bin/activate"
+                    sh ". ${WORKSPACE}/myenv/bin/activate"
 
                     // Install Python dependencies and pip
-                    sh "python3 -m pip install --upgrade pip"
-                    sh "python3 -m pip install -r ${WORKSPACE}/requirements.txt"
+                    sh "${WORKSPACE}/myenv/bin/pip install --upgrade pip"
+                    sh "${WORKSPACE}/myenv/bin/pip install -r ${WORKSPACE}/requirements.txt"
 
                     // Jalankan skrip Python
                     def scriptPathPg = "${WORKSPACE}/monitor_cron_jobs.py"
-                    def scriptOutputPg = sh(script: "python3 ${scriptPathPg}", returnStdout: true).trim()
+                    def scriptOutputPg = sh(script: "${WORKSPACE}/myenv/bin/python ${scriptPathPg}", returnStdout: true).trim()
                     echo "Python Script Postgre SQL Output:\n${scriptOutputPg}"
 
                     def scriptPathOra = "${WORKSPACE}/ora.py"
-                    def scriptOutputOra = sh(script: "python3 ${scriptPathOra}", returnStdout: true).trim()
+                    def scriptOutputOra = sh(script: "${WORKSPACE}/myenv/bin/python ${scriptPathOra}", returnStdout: true).trim()
                     echo "Python Script Oracle Output:\n${scriptOutputOra}"
+
 
                     // Extract the JSON portion from the script output
                     // Postgre
