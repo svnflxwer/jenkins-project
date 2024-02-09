@@ -27,11 +27,11 @@ pipeline {
                     
                     // Set environment variables
                     //sh 'export LD_LIBRARY_PATH=/home/sinatriaba/instantclient_11_2:$LD_LIBRARY_PATH'
-                    sh 'export LD_LIBRARY_PATH=/home/sinatriaba/instantclient_11_2'
-                    sh 'export ORACLE_HOME=/home/sinatriaba/instantclient_11_2'
-                    sh 'export PATH=$PATH:/home/sinatriaba/instantclient_11_2'
+                    sh 'export LD_LIBRARY_PATH=/var/lib/jenkins/workspace/trial/instantclient_11_2'
+                    sh 'export ORACLE_HOME=/var/lib/jenkins/workspace/trial/instantclient_11_2'
+                    sh 'export PATH=$PATH:/var/lib/jenkins/workspace/trial/instantclient_11_2'
                     //sh 'export TNS_ADMIN=/mnt/d/MAGANG-SINAT/oracle-database-xe-11g/app/oracle/product/11.2.0/server/network/ADMIN'
-                    sh 'export TNS_ADMIN=/home/sinatriaba/instantclient_11_2'
+                    sh 'export TNS_ADMIN=/var/lib/jenkins/workspace/trial/instantclient_11_2'
 
                     // Tambahkan perintah untuk memberikan izin eksekusi pada skrip Python
                     sh "chmod +x ${WORKSPACE}/monitor_cron_jobs.py"
