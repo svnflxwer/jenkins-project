@@ -21,7 +21,8 @@ def get_data_ora():
         'dsn': '192.168.56.1:1521/XE'
     }
 
-    karyawan_ora = []
+    karyawan_ora      = []
+    karyawan_ora_json = []
 
     try:
         connection_ora = cx_Oracle.connect(**db_params_ora)
@@ -42,11 +43,12 @@ def get_data_ora():
         for record in records_ora:
             kode_pegawai, nama ,jabatan = record
             if nama:
-                karyawan_ora.append(nama)
+                karyawan_ora_json.append(nama)
+            karyawan_ora.append(record)
 
         return {
             "raw_data": karyawan_ora,
-            "json_data": json.dumps(karyawan_ora)
+            "json_data": json.dumps(karyawan_ora_json)
         }
 
     except Exception as e:
