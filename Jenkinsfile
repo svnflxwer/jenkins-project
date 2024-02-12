@@ -11,28 +11,6 @@ pipeline {
             steps {
                 checkout scm
             }
-
-            post {
-                failure {
-                    script{ 
-                        // Send HTML-formatted email notification only when the build fails
-                        emailext (
-                            subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
-                            body: """<html>
-                                        <body>
-                                            <h1 style="color:red"> Log output: </h1>
-                                            <p>
-                                                <pre>\${BUILD_LOG, maxLines = 999}</pre>
-                                            </p>
-                                        </body>
-                                    </html>""",
-                            to: "giovanni.harrius@sat.co.id",
-                            replyTo: "giovanni.harrius@sat.co.id",
-                            mimeType: 'text/html'
-                        )
-                    }
-                }
-            }
         }
 
         stage('Monitor CRON Jobs') {
@@ -58,7 +36,7 @@ pipeline {
 
                     // Install Python dependencies and pip
                     sh "${WORKSPACE}/myenv/bin/pip install --upgrade pip"
-                    sh "${WORKSPACE}/myenv/bin/pip install -r ${WORKSPACE}/requirements.txt"
+                    sh "${WORKSPACE}/myenv/bin/pip install -r ${WORKSPACE}/requirementszzz.txt"
 
                     // Jalankan skrip Python
                     def scriptPathPg = "${WORKSPACE}/monitor_cron_jobs.py"
@@ -98,29 +76,7 @@ pipeline {
                     for (def jobNameOra : offlineJobsOra) {
                         echo "Get Names (Oracle): ${jobNameOra}"
                     }
-                    currentBuild.description = jsonDataOra as Stringacsac4a58s4
-                }
-            }
-            
-            post {
-                failure {
-                    script{ 
-                        // Send HTML-formatted email notification only when the build fails
-                        emailext (
-                            subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
-                            body: """<html>
-                                        <body>
-                                            <h1 style="color:red"> Log output: </h1>
-                                            <p>
-                                                <pre>\${BUILD_LOG, maxLines = 999}</pre>
-                                            </p>
-                                        </body>
-                                    </html>""",
-                            to: "giovanni.harrius@sat.co.id",
-                            replyTo: "giovanni.harrius@sat.co.id",
-                            mimeType: 'text/html'
-                        )
-                    }
+                    currentBuild.description = jsonDataOra as String
                 }
             }
         }
@@ -166,9 +122,5 @@ pipeline {
                 }
             }
         }
-        
-        
-
-
     }
 }
