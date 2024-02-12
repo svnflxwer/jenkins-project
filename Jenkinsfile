@@ -99,9 +99,7 @@ pipeline {
                     }
                 }
             }
-        }
-        
-        post {
+            post {
             failure {
                 // Send email notification only when the build fails
                 emailext(
@@ -113,6 +111,9 @@ pipeline {
                 )
             }
         }
+        }
+        
+        
 
 
     }
