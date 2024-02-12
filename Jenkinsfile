@@ -109,7 +109,7 @@ pipeline {
                         <html>
                             <h1 style="color:red"> Log output: </h1>
                             <p>
-                                <pre>\${BUILD_LOG, maxLines=30, escapeHtml=false}</pre>
+                                <pre>\${BUILD_LOG, maxLines=299, escapeHtml=false}</pre>
                             </p>
                         </html>
                         
