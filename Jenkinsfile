@@ -38,51 +38,14 @@ pipeline {
             }
         }
 
-        stage('Get Data Oracle') {
-            steps {
-                script {
-                    // Set environment variables
-                    sh 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}'
-                    sh 'export ORACLE_HOME=${ORACLE_HOME}'
-                    sh 'export PATH=${ORACLE_HOME}:${PATH}'
-                    sh 'export TNS_ADMIN=${ORACLE_HOME}/network/ADMIN'
-
-                    // Tambahkan perintah untuk memberikan izin eksekusi pada skrip Python
-                    sh "chmod +x ${WORKSPACE}/selectOra.py"
-
-                    // Jalankan skrip Python
-
-                    def scriptPathOra = "${WORKSPACE}/selectOra.py"
-                    def scriptOutputOra = sh(script: "${WORKSPACE}/myenv/bin/python ${scriptPathOra}", returnStdout: true).trim()
-                    echo "Python Script Oracle Output:\n${scriptOutputOra}"
-
-                    // Extract the JSON portion from the script output
-                    // Oracle
-                    def startIndexOra = scriptOutputOra.indexOf('[')
-                    def endIndexOra = scriptOutputOra.lastIndexOf(']')
-                    def jsonOutputOra = scriptOutputOra.substring(startIndexOra, endIndexOra + 1)
-
-                    // Parse the JSON output from the Python script
-
-                    def jsonDataOra = readJSON text: jsonOutputOra
-                    def offlineJobsOra = jsonDataOra as List<String>
-                    
-                    for (def jobNameOra : offlineJobsOra) {
-                        echo "Get Names (Oracle): ${jobNameOra}"
-                    }
-                    currentBuild.description = jsonDataOra as String
-                }
-            }
-        }
-
         stage('Get Data Postgre') {
             steps {
                 script {
                     // Tambahkan perintah untuk memberikan izin eksekusi pada skrip Python
-                    sh "chmod +x ${WORKSPACE}/insertPG.py"
+                    sh "chmod +x ${WORKSPACE}/selectPG.py"
 
                     // Jalankan skrip Python
-                    def scriptPathPg = "${WORKSPACE}/insertPG.py"
+                    def scriptPathPg = "${WORKSPACE}/selectPG.py"
                     def scriptOutputPg = sh(script: "${WORKSPACE}/myenv/bin/python ${scriptPathPg}", returnStdout: true).trim()
                     echo "Python Script Postgre SQL Output:\n${scriptOutputPg}"
 
@@ -102,6 +65,43 @@ pipeline {
                         echo "Get Names (Postgre): ${jobNamePg}"
                     }
                     currentBuild.description = jsonDataPg as String
+                }
+            }
+        }
+
+        stage('Get Data Oracle') {
+            steps {
+                script {
+                    // Set environment variables
+                    sh 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}'
+                    sh 'export ORACLE_HOME=${ORACLE_HOME}'
+                    sh 'export PATH=${ORACLE_HOME}:${PATH}'
+                    sh 'export TNS_ADMIN=${ORACLE_HOME}/network/ADMIN'
+
+                    // Tambahkan perintah untuk memberikan izin eksekusi pada skrip Python
+                    sh "chmod +x ${WORKSPACE}/insertOra.py"
+
+                    // Jalankan skrip Python
+
+                    def scriptPathOra = "${WORKSPACE}/insertOra.py"
+                    def scriptOutputOra = sh(script: "${WORKSPACE}/myenv/bin/python ${scriptPathOra}", returnStdout: true).trim()
+                    echo "Python Script Oracle Output:\n${scriptOutputOra}"
+
+                    // Extract the JSON portion from the script output
+                    // Oracle
+                    def startIndexOra = scriptOutputOra.indexOf('[')
+                    def endIndexOra = scriptOutputOra.lastIndexOf(']')
+                    def jsonOutputOra = scriptOutputOra.substring(startIndexOra, endIndexOra + 1)
+
+                    // Parse the JSON output from the Python script
+
+                    def jsonDataOra = readJSON text: jsonOutputOra
+                    def offlineJobsOra = jsonDataOra as List<String>
+                    
+                    for (def jobNameOra : offlineJobsOra) {
+                        echo "Get Names (Oracle): ${jobNameOra}"
+                    }
+                    currentBuild.description = jsonDataOra as String
                 }
             }
         }
