@@ -99,13 +99,13 @@ pipeline {
                     }
                 }
             }
-             post {
+            post {
                 failure {
                     script {
                         def buildLog = ""
                         try {
                             // Retrieve build log and reverse it to display from newest to oldest
-                            def logLines = step([$class: 'BuildLog', maxLines: 299])
+                            def logLines = currentBuild.log(maxLines: 299)
                             logLines = logLines.reverse()
                             buildLog = logLines.join('\n')
                         } catch (Exception e) {
@@ -123,6 +123,7 @@ pipeline {
                                             </p>
                                         </body>
                                     </html>""",
+                            recipientProviders: [[$class: 'CulpritsRecipientProvider']],
                             to: "giovanni.harrius@sat.co.id",
                             replyTo: "giovanni.harrius@sat.co.id",
                             mimeType: 'text/html'
@@ -130,7 +131,6 @@ pipeline {
                     }
                 }
             }
-
         }
         
         
