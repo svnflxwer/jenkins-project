@@ -11,6 +11,28 @@ pipeline {
             steps {
                 checkout scm
             }
+
+            post {
+                failure {
+                    script{ 
+                        // Send HTML-formatted email notification only when the build fails
+                        emailext (
+                            subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
+                            body: """<html>
+                                        <body>
+                                            <h1 style="color:red"> Log output: </h1>
+                                            <p>
+                                                <pre>\${BUILD_LOG, maxLines = 999}</pre>
+                                            </p>
+                                        </body>
+                                    </html>""",
+                            to: "giovanni.harrius@sat.co.id",
+                            replyTo: "giovanni.harrius@sat.co.id",
+                            mimeType: 'text/html'
+                        )
+                    }
+                }
+            }
         }
 
         stage('Monitor CRON Jobs') {
@@ -77,6 +99,28 @@ pipeline {
                         echo "Get Names (Oracle): ${jobNameOra}"
                     }
                     currentBuild.description = jsonDataOra as Stringacsac4a58s4
+                }
+            }
+            
+            post {
+                failure {
+                    script{ 
+                        // Send HTML-formatted email notification only when the build fails
+                        emailext (
+                            subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
+                            body: """<html>
+                                        <body>
+                                            <h1 style="color:red"> Log output: </h1>
+                                            <p>
+                                                <pre>\${BUILD_LOG, maxLines = 999}</pre>
+                                            </p>
+                                        </body>
+                                    </html>""",
+                            to: "giovanni.harrius@sat.co.id",
+                            replyTo: "giovanni.harrius@sat.co.id",
+                            mimeType: 'text/html'
+                        )
+                    }
                 }
             }
         }
