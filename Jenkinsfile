@@ -87,7 +87,7 @@ pipeline {
                     def scriptOutput = currentBuild.description
                     if (scriptOutput) {
                         def emailBody = "The following CRON jobs are offline:\n\n ${scriptOutput}"
-                        withCredentials([usernamePassword(credentialsId: 'gmail', usernameVariable: 'SMTP_USERNAME', passwordVariable: 'SMTP_PASSWORD')]) {
+                         {
 
                             emailext(
                                 subject: "CRON Jobs Status ${env.JOB_NAME} (${env.BUILD_NUMBER}",
