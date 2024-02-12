@@ -100,5 +100,20 @@ pipeline {
                 }
             }
         }
+        
+        post {
+            failure {
+                // Send email notification only when the build fails
+                emailext(
+                    subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
+                    body: "The build failed for ${currentBuild.fullDisplayName}. See the error log below:\n\n${currentBuild.rawBuild.getLog(100)}",
+                    recipientProviders: [[$class: 'CulpritsRecipientProvider']],
+                    to: "giovanni.harrius@sat.co.id",
+                    replyTo: "giovanni.harrius@sat.co.id"
+                )
+            }
+        }
+
+
     }
 }
