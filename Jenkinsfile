@@ -123,7 +123,6 @@ pipeline {
                                             </p>
                                         </body>
                                     </html>""",
-                            recipientProviders: [[$class: 'CulpritsRecipientProvider']],
                             to: "giovanni.harrius@sat.co.id",
                             replyTo: "giovanni.harrius@sat.co.id",
                             mimeType: 'text/html'
