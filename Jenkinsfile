@@ -106,6 +106,13 @@ pipeline {
             }
         }
 
+        stage('Delete Data Directory') {
+            steps {
+                // Menghapus folder dataCsvTemp jika sudah ada
+                sh 'rm -rf /var/lib/jenkins/dataCsvTemp'
+            }
+        }
+
         stage('Send Email Notifications') {
             steps {
                 script {
