@@ -113,23 +113,36 @@ pipeline {
             }
         }
 
-        stage('Send Email Notifications') {
-            steps {
-                script {
-                    def scriptOutput = currentBuild.description
-                    if (scriptOutput) {
-                        def emailBody = "The following CRON jobs are offline:\n\n ${scriptOutput}"
-                        withCredentials([usernamePassword(credentialsId: 'gmail', usernameVariable: 'SMTP_USERNAME', passwordVariable: 'SMTP_PASSWORD')]) {
+        // stage('Send Email Notifications') {
+        //     steps {
+        //         script {
+        //             def scriptOutput = currentBuild.description
+        //             if (scriptOutput) {
+        //                 def emailBody = "The following CRON jobs are offline:\n\n ${scriptOutput}"
+        //                 withCredentials([usernamePassword(credentialsId: 'gmail', usernameVariable: 'SMTP_USERNAME', passwordVariable: 'SMTP_PASSWORD')]) {
 
-                            emailext(
-                                subject: "CRON Jobs Status ${env.JOB_NAME} (${env.BUILD_NUMBER}",
-                                body: emailBody,
-                                to: 'giovanni.harrius@sat.co.id',
-                                replyTo: 'giovanni.harrius@sat.co.id'
-                            )
-                        }
-                    }
-                }
+        //                     emailext(
+        //                         subject: "CRON Jobs Status ${env.JOB_NAME} ${env.BUILD_NUMBER}",
+        //                         body: emailBody,
+        //                         to: 'giovanni.harrius@sat.co.id',
+        //                         replyTo: 'giovanni.harrius@sat.co.id'
+        //                     )
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+        post {
+            failure {
+                // Send email notification only when the build fails
+                withCredentials([usernamePassword(credentialsId: 'gmail', usernameVariable: 'SMTP_USERNAME', passwordVariable: 'SMTP_PASSWORD')])
+                {emailext(
+                    subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
+                    body: "The build failed for ${currentBuild.fullDisplayName}. See the error log below:\n\n${buildLog}",
+                    recipientProviders: [[$class: 'CulpritsRecipientProvider']],
+                    to: "giovanni.harrius@sat.co.id",
+                    replyTo: "giovanni.harrius@sat.co.id"
+                )}
             }
         }
     }
