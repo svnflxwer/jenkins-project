@@ -22,7 +22,7 @@ def insert_data_ora(p_directory, p_filename):
             for row in reader:
                 kode_karyawan, nama ,jabatan ,status_pekerjaan, gaji, informasi_kontak = row
                 # Perform the insert operation
-                cursor_ora.execute("INSERT INTO karyawan_hr (kode_karyawan, nama, jabatan, status_pekerjaan, gaji, informasi_kontak) VALUES (%s, %s, %s, %s, %s, %s)", (kode_karyawan, nama, jabatan, status_pekerjaan, gaji, informasi_kontak))
+                cursor_ora.execute("INSERT INTO karyawan_hr (kode_karyawan, nama, jabatan, status_pekerjaan, gaji, informasi_kontak) VALUES (:kode_karyawan, :nama, :jabatan, :status_pekerjaan, :gaji, :informasi_kontak)", (kode_karyawan, nama, jabatan, status_pekerjaan, gaji, informasi_kontak))
 
         # Commit the transaction
         connection_ora.commit()
