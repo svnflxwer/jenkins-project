@@ -105,10 +105,10 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'gmail', usernameVariable: 'SMTP_USERNAME', passwordVariable: 'SMTP_PASSWORD')])
                     {emailext(
                         subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
-                        body:'''
+                        body:"""
                         BODY
                         ${BUILD_LOG_REGEX, regex="Hostname", linesBefore=0, linesAfter=10, maxMatches=5, showTruncatedLines=false, escapeHtml=true}
-                        ''',
+                        """,
                         to: "giovanni.harrius@sat.co.id",
                         replyTo: "giovanni.harrius@sat.co.id"
                     )}
