@@ -115,7 +115,8 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'gmail', usernameVariable: 'SMTP_USERNAME', passwordVariable: 'SMTP_PASSWORD')])
                     {emailext(
                         subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
-                        body:"Build Log:\n\n${buildLog}",
+                        body: "The build failed for ${currentBuild.fullDisplayName}. See the error log below:\n\n${buildLog}",
+                        recipientProviders: [[$class: 'CulpritsRecipientProvider']],
                         to: "giovanni.harrius@sat.co.id",
                         replyTo: "giovanni.harrius@sat.co.id"
                     )}
