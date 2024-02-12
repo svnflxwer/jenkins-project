@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        LD_LIBRARY_PATH = '/var/lib/jenkins/workspace/trial/instantclient_11_2'
-        ORACLE_HOME     = '/var/lib/jenkins/workspace/trial/instantclient_11_2'
+        LD_LIBRARY_PATH = '/var/lib/jenkins/instantclient_11_2'
+        ORACLE_HOME     = '/var/lib/jenkins/instantclient_11_2'
     }
 
     stages {
@@ -13,39 +13,41 @@ pipeline {
             }
         }
 
-        stage('Monitor CRON Jobs') {
+        stage('Create Data Directory') {
+            steps {
+                // Membuat folder dataCsvTemp jika belum ada
+                sh 'mkdir -p /var/lib/jenkins/dataCsvTemp'
+            }
+        }
+
+        stage('Activate Virtual Environment Python') {
             steps {
                 script {
                     // Set PATH globally
                     def workspaceBin = "${WORKSPACE}/myenv/bin"
                     env.PATH = "${workspaceBin}:${env.PATH}"
-                    
-                    // Set environment variables
-                    sh 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}'
-                    sh 'export ORACLE_HOME=${ORACLE_HOME}'
-                    sh 'export PATH=${ORACLE_HOME}:${PATH}'
-                    sh 'export TNS_ADMIN=/mnt/d/MAGANG-SINAT/oracle-database-xe-11g/app/oracle/product/11.2.0/server/network/ADMIN'
 
-                    // Tambahkan perintah untuk memberikan izin eksekusi pada skrip Python
-                    sh "chmod +x ${WORKSPACE}/monitor_cron_jobs.py"
-                    sh "chmod +x ${WORKSPACE}/ora.py"
-
-                    // Aktifkan virtual environment (venv)
+                    // Aktifkan virtual environment (myenv)
                     sh "python3 -m venv ${WORKSPACE}/myenv"
                     sh ". ${WORKSPACE}/myenv/bin/activate"
 
                     // Install Python dependencies and pip
                     sh "${WORKSPACE}/myenv/bin/pip install --upgrade pip"
                     sh "${WORKSPACE}/myenv/bin/pip install -r ${WORKSPACE}/requirements.txt"
+                }
+            }
+        }
+
+        stage('Get Data Postgre') {
+            steps {
+                script {
+                    // Tambahkan perintah untuk memberikan izin eksekusi pada skrip Python
+                    sh "chmod +x ${WORKSPACE}/selectPG.py"
 
                     // Jalankan skrip Python
-                    def scriptPathPg = "${WORKSPACE}/monitor_cron_jobs.py"
+                    def scriptPathPg = "${WORKSPACE}/selectPG.py"
                     def scriptOutputPg = sh(script: "${WORKSPACE}/myenv/bin/python ${scriptPathPg}", returnStdout: true).trim()
                     echo "Python Script Postgre SQL Output:\n${scriptOutputPg}"
-
-                    def scriptPathOra = "${WORKSPACE}/ora.py"
-                    def scriptOutputOra = sh(script: "${WORKSPACE}/myenv/bin/python ${scriptPathOra}", returnStdout: true).trim()
-                    echo "Python Script Oracle Output:\n${scriptOutputOra}"
 
 
                     // Extract the JSON portion from the script output
@@ -53,25 +55,48 @@ pipeline {
                     def startIndexPg = scriptOutputPg.indexOf('[')
                     def endIndexPg = scriptOutputPg.lastIndexOf(']')
                     def jsonOutputPg = scriptOutputPg.substring(startIndexPg, endIndexPg + 1)
-                    // Extract the JSON portion from the script output
 
+                    // Parse the JSON output from the Python script
+                    def jsonDataPg = readJSON text: jsonOutputPg
+                    def offlineJobsPg = jsonDataPg as List<String>
+
+                    // Iterate over offline jobs
+                    for (def jobNamePg : offlineJobsPg) {
+                        echo "Get Names (Postgre): ${jobNamePg}"
+                    }
+                    currentBuild.description = jsonDataPg as String
+                }
+            }
+        }
+
+        stage('Get Data Oracle') {
+            steps {
+                script {
+                    // Set environment variables
+                    sh 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}'
+                    sh 'export ORACLE_HOME=${ORACLE_HOME}'
+                    sh 'export PATH=${ORACLE_HOME}:${PATH}'
+                    sh 'export TNS_ADMIN=${ORACLE_HOME}/network/ADMIN'
+
+                    // Tambahkan perintah untuk memberikan izin eksekusi pada skrip Python
+                    sh "chmod +x ${WORKSPACE}/insertOra.py"
+
+                    // Jalankan skrip Python
+
+                    def scriptPathOra = "${WORKSPACE}/insertOra.py"
+                    def scriptOutputOra = sh(script: "${WORKSPACE}/myenv/bin/python ${scriptPathOra}", returnStdout: true).trim()
+                    echo "Python Script Oracle Output:\n${scriptOutputOra}"
+
+                    // Extract the JSON portion from the script output
                     // Oracle
                     def startIndexOra = scriptOutputOra.indexOf('[')
                     def endIndexOra = scriptOutputOra.lastIndexOf(']')
                     def jsonOutputOra = scriptOutputOra.substring(startIndexOra, endIndexOra + 1)
 
                     // Parse the JSON output from the Python script
-                    def jsonDataPg = readJSON text: jsonOutputPg
-                    def offlineJobsPg = jsonDataPg as List<String>
 
                     def jsonDataOra = readJSON text: jsonOutputOra
                     def offlineJobsOra = jsonDataOra as List<String>
-                    
-                    // Iterate over offline jobs
-                    for (def jobNamePg : offlineJobsPg) {
-                        echo "Get Names (Postgre): ${jobNamePg}"
-                    }
-                    currentBuild.description = jsonDataPg as String
                     
                     for (def jobNameOra : offlineJobsOra) {
                         echo "Get Names (Oracle): ${jobNameOra}"
