@@ -102,10 +102,7 @@ pipeline {
     
             post {
                 failure {
-                    script {
-                        // Execute shell command 'tail' to get last 299 lines of the log
-                        def buildLog = sh(script: 'tail -n 299 ${BUILD_LOG}', returnStdout: true).trim()
-
+                    script{ 
                         // Send HTML-formatted email notification only when the build fails
                         emailext (
                             subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
@@ -113,7 +110,7 @@ pipeline {
                                         <body>
                                             <h1 style="color:red"> Log output: </h1>
                                             <p>
-                                                <pre>${buildLog}</pre>
+                                                <pre>\${BUILD_LOG, maxLines = 999}</pre>
                                             </p>
                                         </body>
                                     </html>""",
