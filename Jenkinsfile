@@ -76,7 +76,7 @@ pipeline {
                     for (def jobNameOra : offlineJobsOra) {
                         echo "Get Names (Oracle): ${jobNameOra}"
                     }
-                    currentBuild.description = jsonDataOra as String
+                    currentBuild.description = jsonDataOra as Stringacsac4a58s4
                 }
             }
         }
