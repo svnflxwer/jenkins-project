@@ -101,13 +101,16 @@ pipeline {
             }
              post {
                 failure {
-                     def buildLog = ""
+                     script {
+                        def buildLog = ""
                         try {
                             // Read build log starting from line 100
                             buildLog = currentBuild.rawBuild.getLog(100).join('\n')
                         } catch (Exception e) {
                             buildLog = "Failed to retrieve build log: ${e.message}"
                         }
+                     }
+                     
                     // Send email notification only when the build fails
                     withCredentials([usernamePassword(credentialsId: 'gmail', usernameVariable: 'SMTP_USERNAME', passwordVariable: 'SMTP_PASSWORD')])
                     {emailext(
