@@ -101,17 +101,18 @@ pipeline {
             }
              post {
                 failure {
+                     def buildLog = ""
+                        try {
+                            // Read build log starting from line 100
+                            buildLog = currentBuild.rawBuild.getLog(100).join('\n')
+                        } catch (Exception e) {
+                            buildLog = "Failed to retrieve build log: ${e.message}"
+                        }
                     // Send email notification only when the build fails
-                    echo """\${BUILD_LOG_REGEX, regex="Hostname", linesBefore=0, linesAfter=10, maxMatches=5, showTruncatedLines=false, escapeHtml=true}"""
                     withCredentials([usernamePassword(credentialsId: 'gmail', usernameVariable: 'SMTP_USERNAME', passwordVariable: 'SMTP_PASSWORD')])
                     {emailext(
                         subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
-                        body:"""
-                        <h1>BODY<h1>
-                        \${BUILD_LOG_REGEX, regex="Hostname", linesBefore=0, linesAfter=10, maxMatches=5, showTruncatedLines=false, escapeHtml=true}
-                        
-                        <p>Console output (last 250 lines):<hr><pre>\${BUILD_LOG}</pre></p>
-                        """,
+                        body:"Build Log:\n\n${buildLog}",
                         to: "giovanni.harrius@sat.co.id",
                         replyTo: "giovanni.harrius@sat.co.id"
                     )}
