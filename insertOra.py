@@ -2,9 +2,9 @@ import cx_Oracle, csv, json
 
 def insert_data_ora(p_directory, p_filename):
     db_params_ora = {
-        'user': 'jenkinsdb',
-        'password': 'sinatriaba',
-        'dsn': '192.168.56.1:1521/XE'
+        'user'      : 'jenkinsdb',
+        'password'  : 'sinatriaba',
+        'dsn'       : '192.168.56.1:1521/XE'
     }
 
     try:
@@ -68,15 +68,26 @@ def cek_data_ora():
 
     try:
         # Connect to the database
-        connection_ora = cx_Oracle.connect(**db_params_ora)
-        cursor_ora = connection_ora.cursor()
+        connection_ora  = cx_Oracle.connect(**db_params_ora)
+        cursor_ora      = connection_ora.cursor()
 
         # Query 
-        query_ora        = "SELECT kode_pegawai, nama, jabatan, status_pekerjaan, gaji, informasi_kontak FROM karyawan_hr"
-        cursor_ora.execute(query_ora )
+        query_ora        = """
+                            SELECT 
+                                kode_pegawai,
+                                nama,
+                                jabatan,
+                                status_pekerjaan,
+                                gaji,
+                                informasi_kontak 
+                            FROM 
+                                karyawan_hr
+                        """
+        v_body          = {}
+        cursor_ora.execute(query_ora, v_body)
         
         # Fetch all records from Oracle
-        records_ora          = cursor_ora.fetchall()
+        records_ora     = cursor_ora.fetchall()
 
         for record in records_ora :
             kode_pegawai, nama ,jabatan, status_pekerjaan, gaji, informasi_kontak = record
