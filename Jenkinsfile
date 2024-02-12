@@ -105,21 +105,22 @@ pipeline {
                         def buildLog = ""
                         try {
                             // Retrieve build log
-                            buildLog = step([$class: 'BuildLog', 'maxLines': 100]).trim()
+                            buildLog = currentBuild.rawBuild.getLog(100).join('\n')
                         } catch (Exception e) {
                             buildLog = "Failed to retrieve build log: ${e.message}"
                         }
+                        
+                        // Send email notification only when the build fails
+                        withCredentials([usernamePassword(credentialsId: 'gmail', usernameVariable: 'SMTP_USERNAME', passwordVariable: 'SMTP_PASSWORD')])
+                        emailext(
+                            subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
+                            body: "The build failed for ${currentBuild.fullDisplayName}. See the error log below:\n\n${buildLog}",
+                            recipientProviders: [[$class: 'CulpritsRecipientProvider']],
+                            to: "giovanni.harrius@sat.co.id",
+                            replyTo: "giovanni.harrius@sat.co.id"
+                        )
                      }
                      
-                    // Send email notification only when the build fails
-                    withCredentials([usernamePassword(credentialsId: 'gmail', usernameVariable: 'SMTP_USERNAME', passwordVariable: 'SMTP_PASSWORD')])
-                    {emailext(
-                        subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
-                        body: "The build failed for ${currentBuild.fullDisplayName}. See the error log below:\n\n${buildLog}",
-                        recipientProviders: [[$class: 'CulpritsRecipientProvider']],
-                        to: "giovanni.harrius@sat.co.id",
-                        replyTo: "giovanni.harrius@sat.co.id"
-                    )}
                 }
             }
         }
