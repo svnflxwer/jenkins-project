@@ -104,8 +104,8 @@ pipeline {
                      script {
                         def buildLog = ""
                         try {
-                            // Read build log starting from line 100
-                            buildLog = currentBuild.rawBuild.getLog(100).join('\n')
+                            // Retrieve build log
+                            buildLog = step([$class: 'BuildLog', 'maxLines': 100]).trim()
                         } catch (Exception e) {
                             buildLog = "Failed to retrieve build log: ${e.message}"
                         }
