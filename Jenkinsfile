@@ -101,25 +101,37 @@ pipeline {
             }
              post {
                 failure {
-                    // Send email notification only when the build fails
-                    withCredentials([usernamePassword(credentialsId: 'gmail', usernameVariable: 'SMTP_USERNAME', passwordVariable: 'SMTP_PASSWORD')])
-                    {emailext(
-                        subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
-                        body:"""
-                        <html>
-                            <h1 style="color:red"> Log output: </h1>
-                            <p>
-                                <pre>\${BUILD_LOG, maxLines=299, escapeHtml=false}</pre>
-                            </p>
-                        </html>
-                        
-                        """,
-                        to: "giovanni.harrius@sat.co.id",
-                        replyTo: "giovanni.harrius@sat.co.id",
-                        mimeType: 'text/html'
-                    )}
+                    script {
+                        def buildLog = ""
+                        try {
+                            // Retrieve build log and reverse it to display from newest to oldest
+                            def logLines = step([$class: 'BuildLog', maxLines: 299])
+                            logLines = logLines.reverse()
+                            buildLog = logLines.join('\n')
+                        } catch (Exception e) {
+                            buildLog = "Failed to retrieve build log: ${e.message}"
+                        }
+
+                        // Send HTML-formatted email notification only when the build fails
+                        emailext (
+                            subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
+                            body: """<html>
+                                        <body>
+                                            <h1 style="color:red"> Log output: </h1>
+                                            <p>
+                                                <pre>${buildLog}</pre>
+                                            </p>
+                                        </body>
+                                    </html>""",
+                            recipientProviders: [[$class: 'CulpritsRecipientProvider']],
+                            to: "giovanni.harrius@sat.co.id",
+                            replyTo: "giovanni.harrius@sat.co.id",
+                            mimeType: 'text/html'
+                        )
+                    }
                 }
             }
+
         }
         
         
