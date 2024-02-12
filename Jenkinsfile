@@ -107,8 +107,10 @@ pipeline {
                     {emailext(
                         subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
                         body:"""
-                        BODY
+                        <h1>BODY<h1>
                         \${BUILD_LOG_REGEX, regex="Hostname", linesBefore=0, linesAfter=10, maxMatches=5, showTruncatedLines=false, escapeHtml=true}
+                        
+                        <p>Console output (last 250 lines):<hr><pre>\${BUILD_LOG}</pre></p>
                         """,
                         to: "giovanni.harrius@sat.co.id",
                         replyTo: "giovanni.harrius@sat.co.id"
