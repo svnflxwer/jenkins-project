@@ -99,7 +99,8 @@ pipeline {
                     }
                 }
             }
-             post {
+    
+            post {
                 failure {
                     script {
                         // Execute shell command 'tail' to get last 299 lines of the log
@@ -116,6 +117,7 @@ pipeline {
                                             </p>
                                         </body>
                                     </html>""",
+                            recipientProviders: [[$class: 'CulpritsRecipientProvider']],
                             to: "giovanni.harrius@sat.co.id",
                             replyTo: "giovanni.harrius@sat.co.id",
                             mimeType: 'text/html'
