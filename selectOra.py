@@ -16,29 +16,30 @@ def export_to_csv(p_data, p_filename, p_directory):
 
 def get_data_ora():
     db_params_ora = {
-        'user': 'jenkinsdb',
-        'password': 'sinatriaba',
-        'dsn': '192.168.56.1:1521/XE'
+        'user'      : 'jenkinsdb',
+        'password'  : 'sinatriaba',
+        'dsn'       : '192.168.56.1:1521/XE'
     }
 
-    karyawan_ora      = []
-    karyawan_ora_json = []
+    karyawan_ora        = []
+    karyawan_ora_json   = []
 
     try:
-        connection_ora = cx_Oracle.connect(**db_params_ora)
-        cursor_ora = connection_ora.cursor()
+        connection_ora  = cx_Oracle.connect(**db_params_ora)
+        cursor_ora      = connection_ora.cursor()
 
-        query_ora = """
-                    SELECT 
-                        KODE_PEGAWAI, 
-                        NAMA, 
-                        JABATAN 
-                    FROM 
-                        KARYAWAN_IT
-                    """
-        cursor_ora.execute(query_ora)
+        query_ora       = """
+                            SELECT 
+                                KODE_PEGAWAI, 
+                                NAMA, 
+                                JABATAN 
+                            FROM 
+                                KARYAWAN_IT
+                        """
+        v_body          = {}
+        cursor_ora.execute(query_ora, v_body)
 
-        records_ora = cursor_ora.fetchall()
+        records_ora     = cursor_ora.fetchall()
 
         for record in records_ora:
             kode_pegawai, nama ,jabatan = record

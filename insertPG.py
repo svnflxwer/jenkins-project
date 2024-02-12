@@ -3,11 +3,11 @@ import psycopg2, csv, json
 def insert_data_to_pg(p_directory, p_filename):
     # Database connection parameters
     db_params_pg = {
-        'database': 'dummydb',
-        'user': 'postgres',
-        'password': 'sinatriaba',
-        'host': 'localhost',
-        'port': '5432'
+        'database'  : 'dummydb',
+        'user'      : 'postgres',
+        'password'  : 'sinatriaba',
+        'host'      : 'localhost',
+        'port'      : '5432'
     }
 
     try:
@@ -58,11 +58,19 @@ def cek_data_pg():
         cursor_pg       = connection_pg .cursor()
 
         # Query 
-        query_pg        = "SELECT kode_karyawan, nama, jabatan FROM karyawan_it"
-        cursor_pg.execute(query_pg )
+        query_pg        = """
+                            SELECT 
+                                kode_karyawan,
+                                nama,
+                                jabatan 
+                            FROM 
+                                karyawan_it
+                        """
+        v_body          = {}                   
+        cursor_pg.execute(query_pg, v_body)
         
         # Fetch all records from PostgreSQL
-        records_pg          = cursor_pg.fetchall()
+        records_pg      = cursor_pg.fetchall()
 
         for record in records_pg :
             kode_pegawai, nama ,jabatan = record
@@ -82,11 +90,11 @@ def cek_data_pg():
 
 
 if __name__ == "__main__":
-    v_directory   = "/var/lib/jenkins/dataCsvTemp"
-    v_filename    = "ora_to_post.csv"
+    v_directory     = "/var/lib/jenkins/dataCsvTemp"
+    v_filename      = "ora_to_post.csv"
     insert_data_to_pg(v_directory, v_filename)
     
-    karyawan_pg  =  cek_data_pg()
+    karyawan_pg     =  cek_data_pg()
 
     print("Postgre Result:")
     print(karyawan_pg)
