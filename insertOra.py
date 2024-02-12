@@ -1,6 +1,5 @@
 import cx_Oracle, csv, json
 
-
 def insert_data_ora(p_directory, p_filename):
     db_params_ora = {
         'user': 'jenkinsdb',
@@ -20,9 +19,29 @@ def insert_data_ora(p_directory, p_filename):
             next(reader, None)
             # Iterate over each row in the CSV file
             for row in reader:
-                kode_karyawan, nama ,jabatan ,status_pekerjaan, gaji, informasi_kontak = row
+                kode_pegawai, nama ,jabatan ,status_pekerjaan, gaji, informasi_kontak = row
                 # Perform the insert operation
-                cursor_ora.execute("INSERT INTO karyawan_hr (kode_karyawan, nama, jabatan, status_pekerjaan, gaji, informasi_kontak) VALUES (:kode_karyawan, :nama, :jabatan, :status_pekerjaan, :gaji, :informasi_kontak)", {'kode_karyawan': kode_karyawan, 'nama': nama, 'jabatan': jabatan, 'status_pekerjaan': status_pekerjaan, 'gaji': gaji, 'informasi_kontak': informasi_kontak})
+                query_ora   = """
+                                INSERT INTO karyawan_hr (kode_pegawai, nama, jabatan, status_pekerjaan, gaji, informasi_kontak) 
+                                VALUES (
+                                    :kode_pegawai,
+                                    :nama,
+                                    :jabatan,
+                                    :status_pekerjaan,
+                                    :gaji,
+                                    :informasi_kontak
+                                )
+                            """
+                v_body      = {
+                    "kode_pegawai"      : kode_pegawai,
+                    "nama"              : nama,
+                    "jabatan"           : jabatan,
+                    "status_pekerjaan"  : status_pekerjaan,
+                    "gaji"              : gaji,
+                    "informasi_kontak"  : informasi_kontak
+                }
+                        
+                cursor_ora.execute(query_ora, v_body)
 
         # Commit the transaction
         connection_ora.commit()
@@ -53,10 +72,10 @@ def cek_data_ora():
         cursor_ora = connection_ora.cursor()
 
         # Query 
-        query_ora        = "SELECT kode_karyawan, nama, jabatan, status_pekerjaan, gaji, informasi_kontak FROM karyawan_it"
+        query_ora        = "SELECT kode_pegawai, nama, jabatan, status_pekerjaan, gaji, informasi_kontak FROM karyawan_hr"
         cursor_ora.execute(query_ora )
         
-        # Fetch all records from PostgreSQL
+        # Fetch all records from Oracle
         records_ora          = cursor_ora.fetchall()
 
         for record in records_ora :
