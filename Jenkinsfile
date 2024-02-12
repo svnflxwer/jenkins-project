@@ -100,13 +100,15 @@ pipeline {
                 }
             }
              post {
-                echo "Masuk Post Build"
                 failure {
                     // Send email notification only when the build fails
                     withCredentials([usernamePassword(credentialsId: 'gmail', usernameVariable: 'SMTP_USERNAME', passwordVariable: 'SMTP_PASSWORD')])
                     {emailext(
                         subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
-                        body: '''The build failed for ${currentBuild.fullDisplayName}. See the error log below:\n\n${BUILD_LOG_REGEX, regex="Hostname", linesBefore=0, linesAfter=10, maxMatches=5, showTruncatedLines=false, escapeHtml=true}''',
+                        body:'''
+                        BODY
+                        ${BUILD_LOG_REGEX, regex="Hostname", linesBefore=0, linesAfter=10, maxMatches=5, showTruncatedLines=false, escapeHtml=true}
+                        ''',
                         recipientProviders: [[$class: 'CulpritsRecipientProvider']],
                         to: "giovanni.harrius@sat.co.id",
                         replyTo: "giovanni.harrius@sat.co.id"
