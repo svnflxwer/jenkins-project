@@ -101,26 +101,23 @@ pipeline {
             }
              post {
                 failure {
-                     script {
-                        def buildLog = ""
-                        try {
-                            // Retrieve build log
-                            buildLog = currentBuild.rawBuild.getLog(100).join('\n')
-                        } catch (Exception e) {
-                            buildLog = "Failed to retrieve build log: ${e.message}"
-                        }
+                    // Send email notification only when the build fails
+                    withCredentials([usernamePassword(credentialsId: 'gmail', usernameVariable: 'SMTP_USERNAME', passwordVariable: 'SMTP_PASSWORD')])
+                    {emailext(
+                        subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
+                        body:"""
+                        <html>
+                            <h1 style="color:red"> Log output: </h1>
+                            <p>
+                                <pre>\${BUILD_LOG, maxLines=30, escapeHtml=false}</pre>
+                            </p>
+                        </html>
                         
-                        // Send email notification only when the build fails
-                        withCredentials([usernamePassword(credentialsId: 'gmail', usernameVariable: 'SMTP_USERNAME', passwordVariable: 'SMTP_PASSWORD')])
-                        emailext(
-                            subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
-                            body: "The build failed for ${currentBuild.fullDisplayName}. See the error log below:\n\n${buildLog}",
-                            recipientProviders: [[$class: 'CulpritsRecipientProvider']],
-                            to: "giovanni.harrius@sat.co.id",
-                            replyTo: "giovanni.harrius@sat.co.id"
-                        )
-                     }
-                     
+                        """,
+                        to: "giovanni.harrius@sat.co.id",
+                        replyTo: "giovanni.harrius@sat.co.id"
+                        mimeType: 'text/html'
+                    )}
                 }
             }
         }
