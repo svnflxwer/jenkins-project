@@ -74,9 +74,9 @@ def select_data_pg():
         records_pg = cursor_pg.fetchall()
 
         for record in records_pg:
-            kode_pegawai, nama ,jabatan ,status_pekerjaan, gaji, informasi_kontak = record
-            if nama:
-                v_transaksi_pg_json.append(nama)
+            id_transaksi, id_franchaise, franchaise, tanggal_transaksi, id_produk, nama_produk, jumlah_terjual, stock, discount, PPN, PPH4, PPH23, status_pembayaran, tanggal_pembayaran = record
+            if nama_produk:
+                v_transaksi_pg_json.append(nama_produk)
             v_transaksi_pg.append(record)
 
         return {
@@ -85,7 +85,7 @@ def select_data_pg():
         }
 
     except Exception as e:
-        print(f"Error inserting data to PostgreSQL: {e}")
+        print(f"Error select data to PostgreSQL: {e}")
         connection_pg.rollback()
 
     finally:
