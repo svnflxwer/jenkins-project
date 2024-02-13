@@ -31,7 +31,6 @@ def insert_data_ora(p_directory, p_filename):
                                     :gaji,
                                     :informasi_kontak
                                 )
-                                ON CONFLICT (kode_pegawai) DO NOTHING
                             """
                 v_body      = {
                     "kode_pegawai"      : kode_pegawai,
