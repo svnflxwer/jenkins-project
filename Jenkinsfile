@@ -252,13 +252,13 @@ pipeline {
                     if (scriptOutput) {
                         def emailBody = "The following CRON jobs are offline:\n\n ${scriptOutput}"
                          {
-
-                            emailext(
+                            withCredentials([usernamePassword(credentialsId: 'gmail', usernameVariable: 'SMTP_USERNAME', passwordVariable: 'SMTP_PASSWORD')])
+                            {emailext(
                                 subject: "CRON Jobs Status ${env.JOB_NAME} (${env.BUILD_NUMBER}",
                                 body: emailBody,
                                 to: 'giovanni.harrius@sat.co.id',
                                 replyTo: 'giovanni.harrius@sat.co.id'
-                            )
+                            )}
                         }
                     }
                 }
@@ -268,7 +268,8 @@ pipeline {
                 failure {
                     script{ 
                         // Send HTML-formatted email notification only when the build fails
-                        emailext (
+                        withCredentials([usernamePassword(credentialsId: 'gmail', usernameVariable: 'SMTP_USERNAME', passwordVariable: 'SMTP_PASSWORD')])
+                        {emailext (
                             subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
                             body: """<html>
                                         <body>
@@ -281,7 +282,7 @@ pipeline {
                             to: "giovanni.harrius@sat.co.id",
                             replyTo: "giovanni.harrius@sat.co.id",
                             mimeType: 'text/html'
-                        )
+                        )}
                     }
                 }
             }
