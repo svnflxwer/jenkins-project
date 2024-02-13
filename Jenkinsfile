@@ -224,7 +224,7 @@ pipeline {
         stage('Delete Data Directory') {
             steps {
                 // Menghapus file didalam dataCsvTemp jika sudah ada
-                sh 'rm /var/lib/jenkins/dataCsvTemp/finance-dept_transfer-karyawan-it_ora-to-pg.csv'
+                sh 'rm /var/lib/jenkins/dataCsvTemp/logistic-dept_logistic-produk-retail_ora-to-pg.csv'
             }
     
             post {

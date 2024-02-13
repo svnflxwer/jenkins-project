@@ -23,21 +23,46 @@ def insert_data_to_pg(p_directory, p_filename):
             next(reader, None)
             # Iterate over each row in the CSV file
             for row in reader:
-                kode_karyawan, nama, jabatan = row
+                id_pengiriman, id_franchaise, franchaise, id_produk, nama_produk, jumlah_dikirim, tanggal_pengiriman, pengirim, penerima, status_pengiriman = row
                 # Perform the insert operation
                 v_query     = """
-                                INSERT INTO karyawan_it (kode_karyawan, nama, jabatan) 
+                                INSERT INTO logistik_produk_retail (
+                                    id_pengiriman, 
+                                    id_franchaise, 
+                                    franchaise, 
+                                    id_produk, 
+                                    nama_produk, 
+                                    jumlah_dikirim, 
+                                    tanggal_pengiriman, 
+                                    pengirim, 
+                                    penerima, 
+                                    status_pengiriman
+                                ) 
                                 VALUES (
-                                    %(kode_karyawan)s, 
-                                    %(nama)s, 
-                                    %(jabatan)s
+                                    %(id_pengiriman)s, 
+                                    %(id_franchaise)s, 
+                                    %(franchaise)s
+                                    %(id_produk)s
+                                    %(nama_produk)s
+                                    %(jumlah_dikirim)s
+                                    %(tanggal_pengiriman)s
+                                    %(pengirim)s
+                                    %(penerima)s
+                                    %(status_pengiriman)s
                                 )
-                                ON CONFLICT (kode_karyawan) DO NOTHING;
+                                ON CONFLICT (id_pengiriman) DO NOTHING;
                             """
                 v_kondisi   = {
-                    "kode_karyawan"   : kode_karyawan,
-                    "nama"            : nama,
-                    "jabatan"         : jabatan
+                    "id_pengiriman"     : id_pengiriman,
+                    "id_franchaise"     : id_franchaise,
+                    "franchaise"        : franchaise,
+                    "id_produk"         : id_produk,
+                    "nama_produk"       : nama_produk,
+                    "jumlah_dikirim"    : jumlah_dikirim,
+                    "tanggal_pengiriman": tanggal_pengiriman,
+                    "pengirim"          : pengirim,
+                    "penerima"          : penerima,
+                    "status_pengiriman" : status_pengiriman,
 
                 }
                 cursor_pg.execute(v_query, v_kondisi)
@@ -65,7 +90,7 @@ def cek_data_pg():
     }
 
     # Create a list to store the names of offline jobs
-    karyawan_pg  = []
+    franchaise_pg  = []
 
     try:
         # Connect to the database
@@ -75,11 +100,18 @@ def cek_data_pg():
         # Query 
         query_pg        = """
                             SELECT 
-                                kode_karyawan,
-                                nama,
-                                jabatan 
+                                id_pengiriman,
+                                id_franchaise,
+                                franchaise,
+                                id_produk,
+                                nama_produk,
+                                jumlah_dikirim,
+                                tanggal_pengiriman,
+                                pengirim,
+                                penerima,
+                                status_pengiriman
                             FROM 
-                                karyawan_it
+                                logistik_produk_retail
                         """
         v_body          = {}                   
         cursor_pg.execute(query_pg, v_body)
@@ -88,12 +120,12 @@ def cek_data_pg():
         records_pg      = cursor_pg.fetchall()
 
         for record in records_pg :
-            kode_pegawai, nama ,jabatan = record
-            if nama:
-                karyawan_pg.append(nama)
+            id_pengiriman, id_franchaise, franchaise, id_produk, nama_produk, jumlah_dikirim, tanggal_pengiriman, pengirim, penerima, status_pengiriman = record
+            if franchaise:
+                franchaise_pg.append(franchaise)
 
         # Return the list of offline jobs as a JSON string
-        return json.dumps(karyawan_pg)
+        return json.dumps(franchaise_pg)
 
     except Exception as e:
         return json.dumps({"error_pg": str(e)})
@@ -106,10 +138,10 @@ def cek_data_pg():
 
 if __name__ == "__main__":
     v_directory     = "/var/lib/jenkins/dataCsvTemp"
-    v_filename      = "finance-dept_transfer-karyawan-it_ora-to-pg.csv"
+    v_filename      = "logistic-dept_logistic-produk-retail_ora-to-pg.csv"
     insert_data_to_pg(v_directory, v_filename)
     
-    karyawan_pg     =  cek_data_pg()
+    franchaise_pg     =  cek_data_pg()
 
     print("Postgre Result:")
-    print(karyawan_pg)
+    print(franchaise_pg)
