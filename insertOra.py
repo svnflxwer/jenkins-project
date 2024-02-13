@@ -108,7 +108,7 @@ def cek_data_ora():
 
 if __name__ == "__main__":
     v_directory   = "/var/lib/jenkins/dataCsvTemp"
-    v_filename    = "post_to_ora.csv"
+    v_filename    = "finance-dept_transfer-karyawan-it_pg-to-ora.csv"
     insert_data_ora(v_directory, v_filename)
 
     karyawan_ora  = cek_data_ora()
