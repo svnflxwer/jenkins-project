@@ -40,7 +40,7 @@ def insert_data_to_pg(p_directory, p_filename):
                     "jabatan"         : jabatan
 
                 }
-                cursor_pg.execute(v_query, ())
+                cursor_pg.execute(v_query, v_kondisi)
 
         # Commit the transaction
         connection_pg.commit()
