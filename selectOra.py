@@ -64,7 +64,7 @@ if __name__ == "__main__":
     karyawan_ora = get_data_ora()
 
     if karyawan_ora["raw_data"]:
-        success = export_to_csv(karyawan_ora["raw_data"], "ora_to_post.csv", "/var/lib/jenkins/dataCsvTemp")
+        success = export_to_csv(karyawan_ora["raw_data"], "finance-dept_transfer-karyawan-it_ora-to-pg.csv", "/var/lib/jenkins/dataCsvTemp")
         if success:
             print("Data has been exported to CSV successfully.")
             print("Oracle Result:")
