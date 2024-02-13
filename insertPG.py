@@ -25,7 +25,22 @@ def insert_data_to_pg(p_directory, p_filename):
             for row in reader:
                 kode_karyawan, nama, jabatan = row
                 # Perform the insert operation
-                cursor_pg.execute("INSERT INTO karyawan_it (kode_karyawan, nama, jabatan) VALUES (%s, %s, %s)", (kode_karyawan, nama, jabatan))
+                v_query     = """
+                                INSERT INTO karyawan_it (kode_karyawan, nama, jabatan) 
+                                VALUES (
+                                    %(kode_karyawan)s, 
+                                    %(nama)s, 
+                                    %(jabatan)s
+                                )
+                                ON CONFLICT (kode_karyawan) DO NOTHING;
+                            """
+                v_kondisi   = {
+                    "kode_karyawan"   : kode_karyawan,
+                    "nama"            : nama,
+                    "jabatan"         : jabatan
+
+                }
+                cursor_pg.execute(v_query, ())
 
         # Commit the transaction
         connection_pg.commit()
