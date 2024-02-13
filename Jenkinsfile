@@ -11,12 +11,56 @@ pipeline {
             steps {
                 checkout scm
             }
+    
+            post {
+                failure {
+                    script{ 
+                        // Send HTML-formatted email notification only when the build fails
+                        emailext (
+                            subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
+                            body: """<html>
+                                        <body>
+                                            <h1 style="color:red"> Log output: </h1>
+                                            <p>
+                                                <pre>\${BUILD_LOG, maxLines = 999}</pre>
+                                            </p>
+                                        </body>
+                                    </html>""",
+                            to: "giovanni.harrius@sat.co.id",
+                            replyTo: "giovanni.harrius@sat.co.id",
+                            mimeType: 'text/html'
+                        )
+                    }
+                }
+            }
         }
 
         stage('Create Data Directory') {
             steps {
                 // Membuat folder dataCsvTemp jika belum ada
                 sh 'mkdir -p /var/lib/jenkins/dataCsvTemp'
+            }
+    
+            post {
+                failure {
+                    script{ 
+                        // Send HTML-formatted email notification only when the build fails
+                        emailext (
+                            subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
+                            body: """<html>
+                                        <body>
+                                            <h1 style="color:red"> Log output: </h1>
+                                            <p>
+                                                <pre>\${BUILD_LOG, maxLines = 999}</pre>
+                                            </p>
+                                        </body>
+                                    </html>""",
+                            to: "giovanni.harrius@sat.co.id",
+                            replyTo: "giovanni.harrius@sat.co.id",
+                            mimeType: 'text/html'
+                        )
+                    }
+                }
             }
         }
 
@@ -34,6 +78,28 @@ pipeline {
                     // Install Python dependencies and pip
                     sh "${WORKSPACE}/myenv/bin/pip install --upgrade pip"
                     sh "${WORKSPACE}/myenv/bin/pip install -r ${WORKSPACE}/requirements.txt"
+                }
+            }
+    
+            post {
+                failure {
+                    script{ 
+                        // Send HTML-formatted email notification only when the build fails
+                        emailext (
+                            subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
+                            body: """<html>
+                                        <body>
+                                            <h1 style="color:red"> Log output: </h1>
+                                            <p>
+                                                <pre>\${BUILD_LOG, maxLines = 999}</pre>
+                                            </p>
+                                        </body>
+                                    </html>""",
+                            to: "giovanni.harrius@sat.co.id",
+                            replyTo: "giovanni.harrius@sat.co.id",
+                            mimeType: 'text/html'
+                        )
+                    }
                 }
             }
         }
@@ -73,6 +139,28 @@ pipeline {
                     currentBuild.description = jsonDataOra as String
                 }
             }
+    
+            post {
+                failure {
+                    script{ 
+                        // Send HTML-formatted email notification only when the build fails
+                        emailext (
+                            subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
+                            body: """<html>
+                                        <body>
+                                            <h1 style="color:red"> Log output: </h1>
+                                            <p>
+                                                <pre>\${BUILD_LOG, maxLines = 999}</pre>
+                                            </p>
+                                        </body>
+                                    </html>""",
+                            to: "giovanni.harrius@sat.co.id",
+                            replyTo: "giovanni.harrius@sat.co.id",
+                            mimeType: 'text/html'
+                        )
+                    }
+                }
+            }
         }
 
         stage('Get Data Postgre') {
@@ -104,12 +192,56 @@ pipeline {
                     currentBuild.description = jsonDataPg as String
                 }
             }
+    
+            post {
+                failure {
+                    script{ 
+                        // Send HTML-formatted email notification only when the build fails
+                        emailext (
+                            subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
+                            body: """<html>
+                                        <body>
+                                            <h1 style="color:red"> Log output: </h1>
+                                            <p>
+                                                <pre>\${BUILD_LOG, maxLines = 999}</pre>
+                                            </p>
+                                        </body>
+                                    </html>""",
+                            to: "giovanni.harrius@sat.co.id",
+                            replyTo: "giovanni.harrius@sat.co.id",
+                            mimeType: 'text/html'
+                        )
+                    }
+                }
+            }
         }
 
         stage('Delete Data Directory') {
             steps {
                 // Menghapus folder dataCsvTemp jika sudah ada
                 sh 'rm -rf /var/lib/jenkins/dataCsvTemp'
+            }
+    
+            post {
+                failure {
+                    script{ 
+                        // Send HTML-formatted email notification only when the build fails
+                        emailext (
+                            subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
+                            body: """<html>
+                                        <body>
+                                            <h1 style="color:red"> Log output: </h1>
+                                            <p>
+                                                <pre>\${BUILD_LOG, maxLines = 999}</pre>
+                                            </p>
+                                        </body>
+                                    </html>""",
+                            to: "giovanni.harrius@sat.co.id",
+                            replyTo: "giovanni.harrius@sat.co.id",
+                            mimeType: 'text/html'
+                        )
+                    }
+                }
             }
         }
 
@@ -119,7 +251,7 @@ pipeline {
                     def scriptOutput = currentBuild.description
                     if (scriptOutput) {
                         def emailBody = "The following CRON jobs are offline:\n\n ${scriptOutput}"
-                        withCredentials([usernamePassword(credentialsId: 'gmail', usernameVariable: 'SMTP_USERNAME', passwordVariable: 'SMTP_PASSWORD')]) {
+                         {
 
                             emailext(
                                 subject: "CRON Jobs Status ${env.JOB_NAME} (${env.BUILD_NUMBER}",
@@ -128,6 +260,28 @@ pipeline {
                                 replyTo: 'giovanni.harrius@sat.co.id'
                             )
                         }
+                    }
+                }
+            }
+    
+            post {
+                failure {
+                    script{ 
+                        // Send HTML-formatted email notification only when the build fails
+                        emailext (
+                            subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
+                            body: """<html>
+                                        <body>
+                                            <h1 style="color:red"> Log output: </h1>
+                                            <p>
+                                                <pre>\${BUILD_LOG, maxLines = 999}</pre>
+                                            </p>
+                                        </body>
+                                    </html>""",
+                            to: "giovanni.harrius@sat.co.id",
+                            replyTo: "giovanni.harrius@sat.co.id",
+                            mimeType: 'text/html'
+                        )
                     }
                 }
             }
