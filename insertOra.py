@@ -19,26 +19,57 @@ def insert_data_ora(p_directory, p_filename):
             next(reader, None)
             # Iterate over each row in the CSV file
             for row in reader:
-                kode_pegawai, nama ,jabatan ,status_pekerjaan, gaji, informasi_kontak = row
+                id_transaksi, id_franchaise, franchaise, tanggal_transaksi, id_produk, nama_produk, jumlah_terjual, stock, discount, PPN, PPH4, PPH23, status_pembayaran, tanggal_pembayaran = row
                 # Perform the insert operation
                 query_ora   = """
-                                INSERT INTO karyawan_hr (kode_pegawai, nama, jabatan, status_pekerjaan, gaji, informasi_kontak) 
+                                INSERT INTO transaksi_penjualan_retail (
+                                    id_transaksi,
+                                    id_franchaise,
+                                    franchaise,
+                                    tanggal_transaksi,
+                                    id_produk,
+                                    nama_produk,
+                                    jumlah_terjual,
+                                    stock,
+                                    discount,
+                                    PPN,
+                                    PPH4,
+                                    PPH23,
+                                    status_pembayaran,
+                                    tanggal_pembayaran
+                                ) 
                                 VALUES (
-                                    :kode_pegawai,
-                                    :nama,
-                                    :jabatan,
-                                    :status_pekerjaan,
-                                    :gaji,
-                                    :informasi_kontak
+                                    :id_transaksi,
+                                    :id_franchaise,
+                                    :franchaise,
+                                    :tanggal_transaksi,
+                                    :id_produk,
+                                    :nama_produk,
+                                    :jumlah_terjual,
+                                    :stock,
+                                    :discount,
+                                    :PPN,
+                                    :PPH4,
+                                    :PPH23,
+                                    :status_pembayaran,
+                                    :tanggal_pembayaran
                                 )
                             """
                 v_body      = {
-                    "kode_pegawai"      : kode_pegawai,
-                    "nama"              : nama,
-                    "jabatan"           : jabatan,
-                    "status_pekerjaan"  : status_pekerjaan,
-                    "gaji"              : gaji,
-                    "informasi_kontak"  : informasi_kontak
+                    "id_transaksi"      : id_transaksi,
+                    "id_franchaise"     : id_franchaise,
+                    "franchaise"        : franchaise,
+                    "tanggal_transaksi" : tanggal_transaksi,
+                    "id_produk"         : id_produk,
+                    "nama_produk"       : nama_produk,
+                    "jumlah_terjual"    : jumlah_terjual,
+                    "stock"             : stock,
+                    "discount"          : discount,
+                    "PPN"               : PPN,
+                    "PPH4"              : PPH4,
+                    "PPH23"             : PPH23,
+                    "status_pembayaran" : status_pembayaran,
+                    "tanggal_pembayaran": tanggal_pembayaran
                 }
                         
                 cursor_ora.execute(query_ora, v_body)
@@ -74,14 +105,22 @@ def cek_data_ora():
         # Query 
         query_ora        = """
                             SELECT 
-                                kode_pegawai,
-                                nama,
-                                jabatan,
-                                status_pekerjaan,
-                                gaji,
-                                informasi_kontak 
+                                id_transaksi,
+                                id_franchaise,
+                                franchaise,
+                                tanggal_transaksi,
+                                id_produk,
+                                nama_produk,
+                                jumlah_terjual,
+                                stock,
+                                discount,
+                                PPN,
+                                PPH4,
+                                PPH23,
+                                status_pembayaran,
+                                tanggal_pembayaran
                             FROM 
-                                karyawan_hr
+                                transaksi_penjualan_retail
                         """
         v_body          = {}
         cursor_ora.execute(query_ora, v_body)
@@ -90,9 +129,9 @@ def cek_data_ora():
         records_ora     = cursor_ora.fetchall()
 
         for record in records_ora :
-            kode_pegawai, nama ,jabatan, status_pekerjaan, gaji, informasi_kontak = record
-            if nama:
-                karyawan_ora.append(nama)
+            id_transaksi, id_franchaise, franchaise, tanggal_transaksi, id_produk, nama_produk, jumlah_terjual, stock, discount, PPN, PPH4, PPH23, status_pembayaran, tanggal_pembayaran = record
+            if id_produk:
+                karyawan_ora.append(id_produk)
 
         # Return the list of offline jobs as a JSON string
         return json.dumps(karyawan_ora)
@@ -108,7 +147,7 @@ def cek_data_ora():
 
 if __name__ == "__main__":
     v_directory   = "/var/lib/jenkins/dataCsvTemp"
-    v_filename    = "post_to_ora.csv"
+    v_filename    = "finance-dept_transaksi-penjualan-retail_pg-to-ora.csv"
     insert_data_ora(v_directory, v_filename)
 
     karyawan_ora  = cek_data_ora()

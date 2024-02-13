@@ -6,7 +6,22 @@ def export_to_csv(p_data, p_filename, p_directory):
         with open(f"{p_directory}/{p_filename}", mode='w', newline='') as file:
             writer = csv.writer(file)
             # Write the header
-            writer.writerow(['KODE_PEGAWAI', 'NAMA', 'JABATAN', 'STATUS_PEKERJAAN', 'GAJI', 'INFORMASI_KONTAK' ])
+            writer.writerow([
+                "ID_TRANSAKSI",
+                "ID_FRANCHAISE",
+                "FRANCHAISE",
+                "TANGGAL_TRANSAKSI",
+                "ID_PRODUK",
+                "NAMA_PRODUK",
+                "JUMLAH_TERJUAL",
+                "STOCK",
+                "DISCOUNT",
+                "PPN",
+                "PPH4",
+                "PPH23",
+                "STATUS_PEMBAYARAN",
+                "TANGGAL_PEMBAYARAN"
+            ])
             # Write the data
             for row in p_data:
                 writer.writerow(row)
@@ -26,8 +41,8 @@ def select_data_pg():
         'port'      : '5432'
     }
 
-    karyawan_pg      = []
-    karyawan_pg_json = []
+    v_transaksi_pg      = []
+    v_transaksi_pg_json = []
     
     try:
         # Connect to the database
@@ -37,14 +52,22 @@ def select_data_pg():
 
         query_pg = """
                     SELECT 
-                        KODE_PEGAWAI, 
-                        NAMA, 
-                        JABATAN,
-                        STATUS_PEKERJAAN,
-                        GAJI,
-                        INFORMASI_KONTAK 
+                        id_transaksi,
+                        id_franchaise,
+                        franchaise,
+                        tanggal_transaksi,
+                        id_produk,
+                        nama_produk,
+                        jumlah_terjual,
+                        stock,
+                        discount,
+                        PPN,
+                        PPH4,
+                        PPH23,
+                        status_pembayaran,
+                        tanggal_pembayaran
                     FROM 
-                        KARYAWAN_HR
+                        transaksi_penjualan_retail
                     """
         cursor_pg.execute(query_pg)
 
@@ -53,12 +76,12 @@ def select_data_pg():
         for record in records_pg:
             kode_pegawai, nama ,jabatan ,status_pekerjaan, gaji, informasi_kontak = record
             if nama:
-                karyawan_pg_json.append(nama)
-            karyawan_pg.append(record)
+                v_transaksi_pg_json.append(nama)
+            v_transaksi_pg.append(record)
 
         return {
-            "raw_data": karyawan_pg,
-            "json_data": json.dumps(karyawan_pg_json)
+            "raw_data": v_transaksi_pg,
+            "json_data": json.dumps(v_transaksi_pg_json)
         }
 
     except Exception as e:
@@ -71,14 +94,14 @@ def select_data_pg():
 
 
 if __name__ == "__main__":
-    karyawan_pg   = select_data_pg()
+    v_transaksi_pg   = select_data_pg()
 
-    if karyawan_pg["raw_data"]:
-        success = export_to_csv(karyawan_pg["raw_data"], "post_to_ora.csv", "/var/lib/jenkins/dataCsvTemp")
+    if v_transaksi_pg["raw_data"]:
+        success = export_to_csv(v_transaksi_pg["raw_data"], "finance-dept_transaksi-penjualan-retail_pg-to-ora.csv", "/var/lib/jenkins/dataCsvTemp")
         if success:
             print("Data has been exported to CSV successfully.")
             print("Postgre Result:")
-            print(karyawan_pg["json_data"])
+            print(v_transaksi_pg["json_data"])
         else:
             print("Failed to export data to CSV.")
     else:
