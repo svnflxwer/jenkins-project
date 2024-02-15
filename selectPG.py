@@ -74,7 +74,7 @@ if __name__ == "__main__":
     karyawan_pg   = select_data_pg()
 
     if karyawan_pg["raw_data"]:
-        success = export_to_csv(karyawan_pg["raw_data"], "finance-dept_transfer-karyawan-it_pg-to-ora.csv", "/var/lib/jenkins/dataCsvTemp")
+        success = export_to_csv(karyawan_pg["raw_data"], "hr-dept_transfer-karyawan-it_pg-to-ora.csv", "/var/lib/jenkins/dataCsvTemp")
         if success:
             print("Data has been exported to CSV successfully.")
             print("Postgre Result:")
