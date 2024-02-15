@@ -11,28 +11,6 @@ pipeline {
             steps {
                 checkout scm
             }
-    
-            post {
-                failure {
-                    script{ 
-                        // Send HTML-formatted email notification only when the build fails
-                        emailext (
-                            subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
-                            body: """<html>
-                                        <body>
-                                            <h1 style="color:red"> Log output: </h1>
-                                            <p>
-                                                <pre>\${BUILD_LOG, maxLines = 999}</pre>
-                                            </p>
-                                        </body>
-                                    </html>""",
-                            to: "giovanni.harrius@sat.co.id",
-                            replyTo: "giovanni.harrius@sat.co.id",
-                            mimeType: 'text/html'
-                        )
-                    }
-                }
-            }
         }
 
         stage('Monitor CRON Jobs') {
@@ -101,68 +79,26 @@ pipeline {
                     currentBuild.description = jsonDataOra as String
                 }
             }
-    
-            post {
-                failure {
-                    script{ 
-                        // Send HTML-formatted email notification only when the build fails
-                        emailext (
-                            subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
-                            body: """<html>
-                                        <body>
-                                            <h1 style="color:red"> Log output: </h1>
-                                            <p>
-                                                <pre>\${BUILD_LOG, maxLines = 999}</pre>
-                                            </p>
-                                        </body>
-                                    </html>""",
-                            to: "giovanni.harrius@sat.co.id",
-                            replyTo: "giovanni.harrius@sat.co.id",
-                            mimeType: 'text/html'
-                        )
-                    }
-                }
-            }
         }
 
-        stage('Send Email Notifications') {
-            steps {
-                script {
-                    def scriptOutput = currentBuild.description
-                    if (scriptOutput) {
-                        def emailBody = "The following CRON jobs are offline:\n\n ${scriptOutput}"
-                         {
-
-                            emailext(
-                                subject: "CRON Jobs Status ${env.JOB_NAME} (${env.BUILD_NUMBER}",
-                                body: emailBody,
-                                to: 'giovanni.harrius@sat.co.id',
-                                replyTo: 'giovanni.harrius@sat.co.id'
-                            )
-                        }
-                    }
-                }
-            }
-    
-            post {
-                failure {
-                    script{ 
-                        // Send HTML-formatted email notification only when the build fails
-                        emailext (
-                            subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
-                            body: """<html>
-                                        <body>
-                                            <h1 style="color:red"> Log output: </h1>
-                                            <p>
-                                                <pre>\${BUILD_LOG, maxLines = 999}</pre>
-                                            </p>
-                                        </body>
-                                    </html>""",
-                            to: "giovanni.harrius@sat.co.id",
-                            replyTo: "giovanni.harrius@sat.co.id",
-                            mimeType: 'text/html'
-                        )
-                    }
+        post {
+            failure {
+                script{ 
+                    // Send HTML-formatted email notification only when the build fails
+                    emailext (
+                        subject: "Build Failed: ${currentBuild.fullDisplayName} (${env.BUILD_NUMBER})",
+                        body: """<html>
+                                    <body>
+                                        <h1 style="color:red"> Log output: </h1>
+                                        <p>
+                                            <pre>\${BUILD_LOG, maxLines = 999}</pre>
+                                        </p>
+                                    </body>
+                                </html>""",
+                        to: "giovanni.harrius@sat.co.id",
+                        replyTo: "giovanni.harrius@sat.co.id",
+                        mimeType: 'text/html'
+                    )
                 }
             }
         }
