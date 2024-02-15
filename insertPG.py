@@ -41,13 +41,13 @@ def insert_data_to_pg(p_directory, p_filename):
                                 VALUES (
                                     %(id_pengiriman)s, 
                                     %(id_franchaise)s, 
-                                    %(franchaise)s
-                                    %(id_produk)s
-                                    %(nama_produk)s
-                                    %(jumlah_dikirim)s
-                                    %(tanggal_pengiriman)s
-                                    %(pengirim)s
-                                    %(penerima)s
+                                    %(franchaise)s,
+                                    %(id_produk)s,
+                                    %(nama_produk)s,
+                                    %(jumlah_dikirim)s,
+                                    %(tanggal_pengiriman)s,
+                                    %(pengirim)s,
+                                    %(penerima)s,
                                     %(status_pengiriman)s
                                 )
                                 ON CONFLICT (id_pengiriman) DO NOTHING;
