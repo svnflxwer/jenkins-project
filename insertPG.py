@@ -23,21 +23,29 @@ def insert_data_to_pg(p_directory, p_filename):
             next(reader, None)
             # Iterate over each row in the CSV file
             for row in reader:
-                kode_karyawan, nama, jabatan = row
+                id, first_name, last_name, email, job_title, department, gender = row
                 # Perform the insert operation
                 v_query     = """
-                                INSERT INTO karyawan_it (kode_karyawan, nama, jabatan) 
+                                INSERT INTO karyawan_it (id, first_name, last_name, email, job_title, department, gender) 
                                 VALUES (
-                                    %(kode_karyawan)s, 
-                                    %(nama)s, 
-                                    %(jabatan)s
+                                    %(id)s, 
+                                    %(first_name)s, 
+                                    %(last_name)s
+                                    %(email)s
+                                    %(job_title)s
+                                    %(department)s
+                                    %(gender)s
                                 )
-                                ON CONFLICT (kode_karyawan) DO NOTHING;
+                                ON CONFLICT (id) DO NOTHING;
                             """
                 v_kondisi   = {
-                    "kode_karyawan"   : kode_karyawan,
-                    "nama"            : nama,
-                    "jabatan"         : jabatan
+                    "id"            : id,
+                    "first_name"    : first_name,
+                    "last_name"     : last_name,
+                    "email"         : email,
+                    "job_title"     : job_title,
+                    "department"    : department,
+                    "gender"        : gender
 
                 }
                 cursor_pg.execute(v_query, v_kondisi)
@@ -75,11 +83,15 @@ def cek_data_pg():
         # Query 
         query_pg        = """
                             SELECT 
-                                kode_karyawan,
-                                nama,
-                                jabatan 
+                                id,
+                                first_name,
+                                last_name,
+                                email,
+                                job_title,
+                                department,
+                                gender
                             FROM 
-                                karyawan_it
+                                karyawan_aaa
                         """
         v_body          = {}                   
         cursor_pg.execute(query_pg, v_body)
@@ -88,9 +100,9 @@ def cek_data_pg():
         records_pg      = cursor_pg.fetchall()
 
         for record in records_pg :
-            kode_pegawai, nama ,jabatan = record
-            if nama:
-                karyawan_pg.append(nama)
+            id, first_name, last_name, email, job_title, department, gender = record
+            if email:
+                karyawan_pg.append(email)
 
         # Return the list of offline jobs as a JSON string
         return json.dumps(karyawan_pg)
@@ -106,7 +118,7 @@ def cek_data_pg():
 
 if __name__ == "__main__":
     v_directory     = "/var/lib/jenkins/dataCsvTemp"
-    v_filename      = "hr-dept_transfer-karyawan-it_ora-to-pg.csv"
+    v_filename      = "hr-dept_transfer-karyawan-aaa_ora-to-pg.csv"
     insert_data_to_pg(v_directory, v_filename)
     
     karyawan_pg     =  cek_data_pg()

@@ -5,7 +5,7 @@ def export_to_csv(p_data, p_filename, p_directory):
         with open(f"{p_directory}/{p_filename}", mode='w', newline='') as file:
             writer = csv.writer(file)
             # Write the header
-            writer.writerow(['KODE_PEGAWAI', 'NAMA', 'JABATAN'])
+            writer.writerow(['ID', 'FIRST_NAME', 'LAST_NAME', 'EMAIL', 'JOB_TITLE', 'DEPARTMENT', 'GENDER'])
             # Write the data
             for row in p_data:
                 writer.writerow(row)
@@ -30,11 +30,15 @@ def get_data_ora():
 
         query_ora       = """
                             SELECT 
-                                KODE_PEGAWAI, 
-                                NAMA, 
-                                JABATAN 
+                                ID,
+                                FIRST_NAME,
+                                LAST_NAME,
+                                EMAIL,
+                                JOB_TITLE,
+                                DEPARTMENT,
+                                GENDER
                             FROM 
-                                KARYAWAN_IT
+                                KARYAWAN_AAA
                         """
         v_body          = {}
         cursor_ora.execute(query_ora, v_body)
@@ -42,9 +46,9 @@ def get_data_ora():
         records_ora     = cursor_ora.fetchall()
 
         for record in records_ora:
-            kode_pegawai, nama ,jabatan = record
-            if nama:
-                karyawan_ora_json.append(nama)
+            id, first_name, last_name, email, job_title, department, gender = record
+            if email:
+                karyawan_ora_json.append(email)
             karyawan_ora.append(record)
 
         return {
@@ -64,7 +68,7 @@ if __name__ == "__main__":
     karyawan_ora = get_data_ora()
 
     if karyawan_ora["raw_data"]:
-        success = export_to_csv(karyawan_ora["raw_data"], "hr-dept_transfer-karyawan-it_ora-to-pg.csv", "/var/lib/jenkins/dataCsvTemp")
+        success = export_to_csv(karyawan_ora["raw_data"], "hr-dept_transfer-karyawan-aaa_ora-to-pg.csv", "/var/lib/jenkins/dataCsvTemp")
         if success:
             print("Data has been exported to CSV successfully.")
             print("Oracle Result:")
