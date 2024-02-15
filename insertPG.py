@@ -26,7 +26,7 @@ def insert_data_to_pg(p_directory, p_filename):
                 id, first_name, last_name, email, job_title, department, gender = row
                 # Perform the insert operation
                 v_query     = """
-                                INSERT INTO karyawan_it (id, first_name, last_name, email, job_title, department, gender) 
+                                INSERT INTO karyawan_aaa (id, first_name, last_name, email, job_title, department, gender) 
                                 VALUES (
                                     %(id)s, 
                                     %(first_name)s, 
