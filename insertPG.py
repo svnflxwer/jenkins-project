@@ -106,7 +106,7 @@ def cek_data_pg():
 
 if __name__ == "__main__":
     v_directory     = "/var/lib/jenkins/dataCsvTemp"
-    v_filename      = "finance-dept_transfer-karyawan-it_ora-to-pg.csv"
+    v_filename      = "hr-dept_transfer-karyawan-it_ora-to-pg.csv"
     insert_data_to_pg(v_directory, v_filename)
     
     karyawan_pg     =  cek_data_pg()
