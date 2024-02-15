@@ -95,8 +95,8 @@ pipeline {
                                         </p>
                                     </body>
                                 </html>""",
-                        to: "giovanni.harrius@sat.co.id",
-                        replyTo: "giovanni.harrius@sat.co.id",
+                        to: "sinatria.b.adil@sat.co.id",
+                        replyTo: "sinatria.b.adil@sat.co.id",
                         mimeType: 'text/html'
                     )
                 }
