@@ -54,6 +54,20 @@ def insert_data_ora(p_directory, p_filename):
                                     :status_pembayaran,
                                     :tanggal_pembayaran
                                 )
+                                ON DUPLICATE KEY UPDATE 
+                                    id_franchaise       = :id_franchaise,
+                                    franchaise          = :franchaise,
+                                    tanggal_transaksi   = :tanggal_transaksi,
+                                    id_produk           = :id_produk,
+                                    nama_produk         = :nama_produk,
+                                    jumlah_terjual      = :jumlah_terjual,
+                                    stock               = :stock,
+                                    discount            = :discount,
+                                    PPN                 = :PPN,
+                                    PPH4                = :PPH4,
+                                    PPH23               = :PPH23,
+                                    status_pembayaran   = :status_pembayaran,
+                                    tanggal_pembayaran  = :tanggal_pembayaran
                             """
                 v_body      = {
                     "id_transaksi"      : id_transaksi,
