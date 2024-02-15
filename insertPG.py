@@ -50,7 +50,6 @@ def insert_data_to_pg(p_directory, p_filename):
                                     %(penerima)s,
                                     %(status_pengiriman)s
                                 )
-                                ON CONFLICT (id_pengiriman) DO NOTHING;
                             """
                 v_kondisi   = {
                     "id_pengiriman"     : id_pengiriman,
