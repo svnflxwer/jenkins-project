@@ -5,7 +5,7 @@ def export_to_csv(p_data, p_filename, p_directory):
         with open(f"{p_directory}/{p_filename}", mode='w', newline='') as file:
             writer = csv.writer(file)
             # Write the header
-            writer.writerow(['KODE_PEGAWAI', 'NAMA', 'JABATAN'])
+            writer.writerow(['ID_PENGIRIMAN', 'ID_FRANCHAISE', 'FRANCHAISE', 'ID_PRODUK', 'NAMA_PRODUK', 'JUMLAH_DIKIRIM', 'TANGGAL_PENGIRIMAN', 'PENGIRIM', 'PENERIMA', 'STATUS_PENGIRIMAN' ])
             # Write the data
             for row in p_data:
                 writer.writerow(row)
@@ -21,8 +21,8 @@ def get_data_ora():
         'dsn'       : '192.168.56.1:1521/XE'
     }
 
-    karyawan_ora        = []
-    karyawan_ora_json   = []
+    logistik_ora        = []
+    logistik_ora_json   = []
 
     try:
         connection_ora  = cx_Oracle.connect(**db_params_ora)
@@ -30,11 +30,18 @@ def get_data_ora():
 
         query_ora       = """
                             SELECT 
-                                KODE_PEGAWAI, 
-                                NAMA, 
-                                JABATAN 
+                                ID_PENGIRIMAN,
+                                ID_FRANCHAISE,
+                                FRANCHAISE,
+                                ID_PRODUK,
+                                NAMA_PRODUK,
+                                JUMLAH_DIKIRIM,
+                                TANGGAL_PENGIRIMAn,
+                                PENGIRIM,
+                                PENERIMA,
+                                STATUS_PENGIRIMAN
                             FROM 
-                                KARYAWAN_IT
+                                LOGISTIK_PRODUK_RETAIL
                         """
         v_body          = {}
         cursor_ora.execute(query_ora, v_body)
@@ -42,14 +49,14 @@ def get_data_ora():
         records_ora     = cursor_ora.fetchall()
 
         for record in records_ora:
-            kode_pegawai, nama ,jabatan = record
-            if nama:
-                karyawan_ora_json.append(nama)
-            karyawan_ora.append(record)
+            id_pengiriman, id_franchaise, franchaise, id_produk, nama_produk, jumlah_dikirim, tanggal_pengiriman, pengirim, penerima, status_pengiriman = record
+            if id_franchaise:
+                logistik_ora_json.append(id_franchaise)
+            logistik_ora.append(record)
 
         return {
-            "raw_data": karyawan_ora,
-            "json_data": json.dumps(karyawan_ora_json)
+            "raw_data": logistik_ora,
+            "json_data": json.dumps(logistik_ora_json)
         }
 
     except Exception as e:
@@ -61,14 +68,14 @@ def get_data_ora():
         connection_ora.close()
 
 if __name__ == "__main__":
-    karyawan_ora = get_data_ora()
+    logistik_ora = get_data_ora()
 
-    if karyawan_ora["raw_data"]:
-        success = export_to_csv(karyawan_ora["raw_data"], "logistic-dept_logistic-produk-retail_ora-to-pg.csv", "/var/lib/jenkins/dataCsvTemp")
+    if logistik_ora["raw_data"]:
+        success = export_to_csv(logistik_ora["raw_data"], "logistic-dept_logistic-produk-retail_ora-to-pg.csv", "/var/lib/jenkins/dataCsvTemp")
         if success:
             print("Data has been exported to CSV successfully.")
             print("Oracle Result:")
-            print(karyawan_ora["json_data"])
+            print(logistik_ora["json_data"])
         else:
             print("Failed to export data to CSV.")
     else:
