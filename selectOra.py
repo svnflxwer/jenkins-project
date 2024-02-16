@@ -69,14 +69,14 @@ def get_data_ora():
         connection_ora.close()
 
 if __name__ == "__main__":
-    karyawan_ora = get_data_ora()
+    produk_ora = get_data_ora()
 
-    if karyawan_ora["raw_data"]:
-        success = export_to_csv(karyawan_ora["raw_data"], "logistic-dept_produk-aaa_ora-to-pg.csv", "/var/lib/jenkins/dataCsvTemp")
+    if produk_ora["raw_data"]:
+        success = export_to_csv(produk_ora["raw_data"], "logistic-dept_produk-aaa_ora-to-pg.csv", "/var/lib/jenkins/dataCsvTemp")
         if success:
             print("Data has been exported to CSV successfully.")
             print("Oracle Result:")
-            print(karyawan_ora["json_data"])
+            print(produk_ora["json_data"])
         else:
             print("Failed to export data to CSV.")
     else:
