@@ -42,7 +42,7 @@ pipeline {
                 sh 'mkdir -p /var/lib/jenkins/dataCsvTemp'
                 
                 // Menghapus file didalam dataCsvTemp jika sudah ada
-                sh 'rm -f /var/lib/jenkins/dataCsvTemp/hr-dept_transfer-karyawan-it_ora-to-pg.csv'
+                sh 'rm -f /var/lib/jenkins/dataCsvTemp/logistic-dept_produk-aaa_ora-to-pg.csv'
             }
     
             post {
