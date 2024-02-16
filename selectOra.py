@@ -42,7 +42,7 @@ def get_data_ora():
                                 WEIGHT,
                                 CATEGORY
                             FROM 
-                                PRODUK_AAA
+                                PRODUCT_AAA
                         """
         v_body          = {}
         cursor_ora.execute(query_ora, v_body)

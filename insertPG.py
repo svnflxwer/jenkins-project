@@ -26,7 +26,7 @@ def insert_data_to_pg(p_directory, p_filename):
                 id, brand, variant, arrival_date, price, supplier, discount, stock, expired_date, weight, category = row
                 # Perform the insert operation
                 v_query     = """
-                                INSERT INTO produk_aaa (id, brand, variant, arrival_date, price, supplier, discount, stock, expired_date, weight, category) 
+                                INSERT INTO product_aaa (id, brand, variant, arrival_date, price, supplier, discount, stock, expired_date, weight, category) 
                                 VALUES (
                                     %(id)s, 
                                     %(brand)s, 
@@ -92,7 +92,7 @@ def cek_data_pg():
                             SELECT 
                                 id, brand, variant, arrival_date, price, supplier, discount, stock, expired_date, weight, category
                             FROM 
-                                produk_aaa
+                                product_aaa
                         """
         v_body          = {}                   
         cursor_pg.execute(query_pg, v_body)
