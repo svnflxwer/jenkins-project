@@ -80,7 +80,7 @@ def cek_data_pg():
     }
 
     # Create a list to store the names of offline jobs
-    karyawan_pg  = []
+    produk_pg  = []
 
     try:
         # Connect to the database
@@ -90,7 +90,17 @@ def cek_data_pg():
         # Query 
         query_pg        = """
                             SELECT 
-                                id, brand, variant, arrival_date, price, supplier, discount, stock, expired_date, weight, category
+                                id,
+                                brand,
+                                variant,
+                                arrival_date,
+                                price,
+                                supplier,
+                                discount,
+                                stock,
+                                expired_date,
+                                weight,
+                                category
                             FROM 
                                 product_aaa
                         """
@@ -101,12 +111,12 @@ def cek_data_pg():
         records_pg      = cursor_pg.fetchall()
 
         for record in records_pg :
-            id, first_name, last_name, email, job_title, department, gender = record
-            if email:
-                karyawan_pg.append(email)
+            id, brand, variant, arrival_date, price, supplier, discount, stock, expired_date, weight, category = record
+            if brand:
+                produk_pg.append(brand)
 
         # Return the list of offline jobs as a JSON string
-        return json.dumps(karyawan_pg)
+        return json.dumps(produk_pg)
 
     except Exception as e:
         return json.dumps({"error_pg": str(e)})
@@ -122,7 +132,7 @@ if __name__ == "__main__":
     v_filename      = "logistic-dept_produk-aaa_ora-to-pg.csv"
     insert_data_to_pg(v_directory, v_filename)
     
-    karyawan_pg     =  cek_data_pg()
+    produk_pg     =  cek_data_pg()
 
     print("Postgre Result:")
-    print(karyawan_pg)
+    print(produk_pg)
