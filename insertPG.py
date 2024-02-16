@@ -30,11 +30,11 @@ def insert_data_to_pg(p_directory, p_filename):
                                 VALUES (
                                     %(id)s, 
                                     %(first_name)s, 
-                                    %(last_name)s
+                                    %(last_name)s,
                                     %(email)s,
                                     %(job_title)s,
                                     %(department)s,
-                                    %(gender)s,
+                                    %(gender)s
                                 )
                                 ON CONFLICT (id) DO NOTHING;
                             """
