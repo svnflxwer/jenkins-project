@@ -85,7 +85,7 @@ pipeline {
                     sh 'export TNS_ADMIN=${ORACLE_HOME}/network/ADMIN'
 
                     // Menjalankan SQL script untuk export data dari Oracle ke CSV
-                    sh '${ORACLE_HOME}/sqlplus jenkinsdb/sinatriaba@localhost:1521/XE @${SQL_FILE_PATH}/selectOra.sql'
+                    sh "${ORACLE_HOME}/sqlplus 'jenkinsdb/sinatriaba@(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = P230820223_SINAT)(PORT = 1521))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = XE)))' @${SQL_FILE_PATH}/selectOra.sql"
                 }
             }
     
