@@ -79,14 +79,13 @@ pipeline {
         stage('Get Data Oracle') {
             steps {
                 script {
-                    // sh 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}'
-                    // sh 'export ORACLE_HOME=${ORACLE_HOME}'
-                    // sh 'export PATH=${ORACLE_HOME}:${PATH}'
-                    // sh 'export TNS_ADMIN=${ORACLE_HOME}/network/ADMIN'
-
                     // Menjalankan SQL script untuk export data dari Oracle ke CSV
                     sh '''
+                        export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}
+                        export ORACLE_HOME=${ORACLE_HOME}
+                        export PATH=${ORACLE_HOME}:${PATH}
                         export TNS_ADMIN=${ORACLE_HOME}/network/ADMIN
+
                         ${ORACLE_HOME}/sqlplus jenkinsdb/sinatriaba@XE @${SQL_FILE_PATH}/selectOra.sql
                     '''
                 }
@@ -120,7 +119,7 @@ pipeline {
             steps {
                 script {
                     // Menjalankan SQL script untuk  import data dari CSV ke PostgreSQL
-                    sh "psql -h ${PG_HOST} -p ${PG_PORT} -d ${PG_DATABASE} -U ${PG_USER} -c \"COPY transaksi_penjualan_retail(id_transaksi, id_franchaise, franchaise, tanggal_transaksi, id_produk, nama_produk, jumlah_terjual, stock, discount, PPN, PPH4, PPH23, status_pembayaran, tanggal_pembayaran) FROM '${CSV_FILE_PATH}/insertPG.sql' DELIMITER '|' CSV HEADER;\""
+                    sh "PGPASSWORD=${PG_PASSWORD} psql -h ${PG_HOST} -p ${PG_PORT} -d ${PG_DATABASE} -U ${PG_USER} -c \"COPY transaksi_penjualan_retail(id_transaksi, id_franchaise, franchaise, tanggal_transaksi, id_produk, nama_produk, jumlah_terjual, stock, discount, PPN, PPH4, PPH23, status_pembayaran, tanggal_pembayaran) FROM '${CSV_FILE_PATH}/insertPG.sql' DELIMITER '|' CSV HEADER;\""
                 }
             }
     
