@@ -5,7 +5,7 @@ pipeline {
         LD_LIBRARY_PATH = '/var/lib/jenkins/instantclient_11_2'
         ORACLE_HOME     = '/var/lib/jenkins/instantclient_11_2'
         CSV_FILE_PATH   = '/var/lib/jenkins/dataCsvTemp'
-        SQL_FILE_PATH   = '/var/lib/jenkins/workspace/finance-dept_transaksi-penjualan-retail_pg-to-ora'
+        SQL_FILE_PATH   = '/var/lib/jenkins/workspace/finance-dept_transaksi-penjualan-retail_ora-to-pg'
         PG_HOST         = 'localhost'
         PG_PORT         = '5432'
         PG_DATABASE     = 'dummydb'
@@ -49,7 +49,7 @@ pipeline {
                 sh 'mkdir -p /var/lib/jenkins/dataCsvTemp'
 
                 // Menghapus folder dataCsvTemp jika sudah ada
-                sh 'rm -rf ${CSV_FILE_PATH}/finance-dept_transaksi-penjualan-retail_pg-to-ora.csv'
+                sh 'rm -rf ${CSV_FILE_PATH}/finance-dept_transaksi-penjualan-retail_ora-to-pg.csv'
             }
     
             post {
