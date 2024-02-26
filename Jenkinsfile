@@ -85,7 +85,7 @@ pipeline {
                     sh 'export TNS_ADMIN=${ORACLE_HOME}/network/ADMIN'
 
                     // Menjalankan SQL script untuk export data dari Oracle ke CSV
-                    sh 'sqlplus jenkinsdb/sinatriaba@XE @${SQL_FILE_PATH}/selectOra.sql'
+                    sh 'sqlplus jenkinsdb/sinatriaba@XE @/var/lib/jenkins/workspace/finance-dept_transaksi-penjualan-retail_ora-to-pg/selectOra.sql'
                 }
             }
     
