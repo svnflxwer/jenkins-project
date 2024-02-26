@@ -79,13 +79,16 @@ pipeline {
         stage('Get Data Oracle') {
             steps {
                 script {
-                    sh 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}'
-                    sh 'export ORACLE_HOME=${ORACLE_HOME}'
-                    sh 'export PATH=${ORACLE_HOME}:${PATH}'
-                    sh 'export TNS_ADMIN=${ORACLE_HOME}/network/ADMIN'
+                    // sh 'export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}'
+                    // sh 'export ORACLE_HOME=${ORACLE_HOME}'
+                    // sh 'export PATH=${ORACLE_HOME}:${PATH}'
+                    // sh 'export TNS_ADMIN=${ORACLE_HOME}/network/ADMIN'
 
                     // Menjalankan SQL script untuk export data dari Oracle ke CSV
-                    sh "${ORACLE_HOME}/sqlplus 'jenkinsdb/sinatriaba@(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = P230820223_SINAT)(PORT = 1521))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = XE)))' @${SQL_FILE_PATH}/selectOra.sql"
+                    sh '''
+                        export TNS_ADMIN=${ORACLE_HOME}/network/ADMIN
+                        ${ORACLE_HOME}/sqlplus jenkinsdb/sinatriaba@XE @${SQL_FILE_PATH}/selectOra.sql
+                    '''
                 }
             }
     
