@@ -86,7 +86,7 @@ pipeline {
                         export PATH=${ORACLE_HOME}:${PATH}
                         export TNS_ADMIN=${ORACLE_HOME}/network/ADMIN
 
-                        ${ORACLE_HOME}/sqlplusins giovanni/iamhuman@XE @${SQL_FILE_PATH}/selectOra.sql
+                        ${ORACLE_HOME}/sqlplus giovanni/iamhuman@XE @${SQL_FILE_PATH}/selectOra.sql
                     '''
                 }
             }
