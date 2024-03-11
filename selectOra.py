@@ -18,7 +18,7 @@ def get_data_ora():
     db_params_ora = {
         'user'      : 'giovanni',
         'password'  : 'iamhuman',
-        'dsn'       : 'localhost.1:1521/XE'
+        'dsn'       : 'localhost:1521/XE'
     }
 
     logistik_ora        = []
