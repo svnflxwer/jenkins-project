@@ -2,15 +2,15 @@ pipeline {
     agent any
 
     environment {
-        LD_LIBRARY_PATH = '/var/lib/jenkins/instantclient_11_2'
-        ORACLE_HOME     = '/var/lib/jenkins/instantclient_11_2'
+        LD_LIBRARY_PATH = '/home/giovannih/oracle/instantclient_11_2'
+        ORACLE_HOME     = '/home/giovannih/oracle/instantclient_11_2'
         CSV_FILE_PATH   = '/var/lib/jenkins/dataCsvTemp'
         SQL_FILE_PATH   = '/var/lib/jenkins/workspace/finance-dept_transaksi-penjualan-retail_ora-to-pg'
         PG_HOST         = 'localhost'
         PG_PORT         = '5432'
-        PG_DATABASE     = 'dummydb'
+        PG_DATABASE     = 'postgres'
         PG_USER         = 'postgres'
-        PG_PASSWORD     = 'sinatriaba'
+        PG_PASSWORD     = 'iamhuman'
     }
 
     stages {
@@ -34,8 +34,8 @@ pipeline {
                                             </p>
                                         </body>
                                     </html>""",
-                            to: "sinatria.b.adil@sat.co.id",
-                            replyTo: "sinatria.b.adil@sat.co.id",
+                            to: "giovanni.harrius@sat.co.id",
+                            replyTo: "giovanni.harrius@sat.co.id",
                             mimeType: 'text/html'
                         )}
                     }
@@ -67,8 +67,8 @@ pipeline {
                                             </p>
                                         </body>
                                     </html>""",
-                            to: "sinatria.b.adil@sat.co.id",
-                            replyTo: "sinatria.b.adil@sat.co.id",
+                            to: "giovanni.harrius@sat.co.id",
+                            replyTo: "giovanni.harrius@sat.co.id",
                             mimeType: 'text/html'
                         )}
                     }
@@ -106,8 +106,8 @@ pipeline {
                                             </p>
                                         </body>
                                     </html>""",
-                            to: "sinatria.b.adil@sat.co.id",
-                            replyTo: "sinatria.b.adil@sat.co.id",
+                            to: "giovanni.harrius@sat.co.id",
+                            replyTo: "giovanni.harrius@sat.co.id",
                             mimeType: 'text/html'
                         )}
                     }
@@ -138,8 +138,8 @@ pipeline {
                                             </p>
                                         </body>
                                     </html>""",
-                            to: "sinatria.b.adil@sat.co.id",
-                            replyTo: "sinatria.b.adil@sat.co.id",
+                            to: "giovanni.harrius@sat.co.id",
+                            replyTo: "giovanni.harrius@sat.co.id",
                             mimeType: 'text/html'
                         )}
                     }
