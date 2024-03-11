@@ -8,8 +8,8 @@ def export_to_csv(p_data, p_filename, p_directory):
             # Write the header
             writer.writerow([
                 "ID_TRANSAKSI",
-                "ID_FRANCHAISE",
-                "FRANCHAISE",
+                "ID_FRANCHISE",
+                "FRANCHISE",
                 "TANGGAL_TRANSAKSI",
                 "ID_PRODUK",
                 "NAMA_PRODUK",
@@ -53,8 +53,8 @@ def select_data_pg():
         query_pg = """
                     SELECT 
                         id_transaksi,
-                        id_franchaise,
-                        franchaise,
+                        id_FRANCHISE,
+                        FRANCHISE,
                         tanggal_transaksi,
                         id_produk,
                         nama_produk,
@@ -74,7 +74,7 @@ def select_data_pg():
         records_pg = cursor_pg.fetchall()
 
         for record in records_pg:
-            id_transaksi, id_franchaise, franchaise, tanggal_transaksi, id_produk, nama_produk, jumlah_terjual, stock, discount, PPN, PPH4, PPH23, status_pembayaran, tanggal_pembayaran = record
+            id_transaksi, id_FRANCHISE, FRANCHISE, tanggal_transaksi, id_produk, nama_produk, jumlah_terjual, stock, discount, PPN, PPH4, PPH23, status_pembayaran, tanggal_pembayaran = record
             if nama_produk:
                 v_transaksi_pg_json.append(nama_produk)
             v_transaksi_pg.append(record)
