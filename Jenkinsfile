@@ -126,8 +126,7 @@ pipeline {
 
                     def scriptPathOra = "${WORKSPACE}/selectOra.py"
                     def scriptOutputOra = sh(script: "${WORKSPACE}/myenv/bin/python ${scriptPathOra}", returnStdout: true).trim()
-                    echo "Python Script Oracle Output:\n${scriptOutputOra}"
-
+                    
                     // Extract the JSON portion from the script output
                     // Oracle
                     def startIndexOra = scriptOutputOra.indexOf('[')
