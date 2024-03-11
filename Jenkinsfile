@@ -119,7 +119,7 @@ pipeline {
             steps {
                 script {
                     // Menjalankan SQL script untuk  import data dari CSV ke PostgreSQL
-                    sh "PGPASSWORD=${PG_PASSWORD} psql -h ${PG_HOST} -p ${PG_PORT} -d ${PG_DATABASE} -U ${PG_USER} -c \"COPY transaksi_penjualan_retail(id_transaksi, id_franchaise, franchaise, tanggal_transaksi, id_produk, nama_produk, jumlah_terjual, stock, discount, PPN, PPH4, PPH23, status_pembayaran, tanggal_pembayaran) FROM '${CSV_FILE_PATH}/finance-dept_transaksi-penjualan-retail_ora-to-pg.csv' DELIMITER '|' CSV HEADER;\""
+                    sh "PGPASSWORD=${PG_PASSWORD} psql -h ${PG_HOST} -p ${PG_PORT} -d ${PG_DATABASE} -U ${PG_USER} -c \"COPY transaksi_penjualan_retail(id_transaksi, id_franchise, franchise, tanggal_transaksi, id_produk, nama_produk, jumlah_terjual, stock, discount, PPN, PPH4, PPH23, status_pembayaran, tanggal_pembayaran) FROM '${CSV_FILE_PATH}/finance-dept_transaksi-penjualan-retail_ora-to-pg.csv' DELIMITER '|' CSV HEADER;\""
                 }
             }
     
