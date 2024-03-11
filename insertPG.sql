@@ -1,8 +1,8 @@
 -- Buat temporary table untuk menampung data dari file CSV
 CREATE TEMP TABLE temp_import_table (
     ID_TRANSAKSI        VARCHAR(50),
-    ID_FRANCHAISE       VARCHAR(6),
-    FRANCHAISE          VARCHAR(10),
+    ID_FRANCHISE       VARCHAR(6),
+    FRANCHISE          VARCHAR(10),
     TANGGAL_TRANSAKSI   VARCHAR(5),
     ID_PRODUK           VARCHAR(8),
     NAMA_PRODUK         VARCHAR(3),
@@ -22,8 +22,8 @@ COPY temp_import_table FROM '/var/lib/jenkins/dataCsvTemp/finance-dept_transaksi
 -- Insert data dari temporary table ke tabel utama
 INSERT INTO transaksi_penjualan_retail (
     ID_TRANSAKSI,
-    ID_FRANCHAISE,
-    FRANCHAISE,
+    ID_FRANCHISE,
+    FRANCHISE,
     TANGGAL_TRANSAKSI,
     ID_PRODUK,
     NAMA_PRODUK,
@@ -38,8 +38,8 @@ INSERT INTO transaksi_penjualan_retail (
 )
 SELECT
     ID_TRANSAKSI,
-    ID_FRANCHAISE,
-    FRANCHAISE,
+    ID_FRANCHISE,
+    FRANCHISE,
     TANGGAL_TRANSAKSI,
     ID_PRODUK,
     NAMA_PRODUK,
