@@ -16,9 +16,9 @@ def export_to_csv(p_data, p_filename, p_directory):
 
 def get_data_ora():
     db_params_ora = {
-        'user'      : 'jenkinsdb',
-        'password'  : 'sinatriaba',
-        'dsn'       : '192.168.56.1:1521/XE'
+        'user'      : 'giovanni',
+        'password'  : 'iamhuman',
+        'dsn'       : 'localhost.1:1521/XE'
     }
 
     logistik_ora        = []

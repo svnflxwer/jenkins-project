@@ -3,9 +3,9 @@ import psycopg2, csv, json
 def insert_data_to_pg(p_directory, p_filename):
     # Database connection parameters
     db_params_pg = {
-        'database'  : 'dummydb',
+        'database'  : 'postgres',
         'user'      : 'postgres',
-        'password'  : 'sinatriaba',
+        'password'  : 'iamhuman',
         'host'      : 'localhost',
         'port'      : '5432'
     }
@@ -81,9 +81,9 @@ def insert_data_to_pg(p_directory, p_filename):
 def cek_data_pg():
     # Database connection parameters
     db_params_pg  = {
-        'database'  : 'dummydb',
+        'database'  : 'postgres',
         'user'      : 'postgres',
-        'password'  : 'sinatriaba',
+        'password'  : 'iamhuman',
         'host'      : 'localhost',
         'port'      : '5432'
     }
