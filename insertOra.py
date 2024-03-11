@@ -2,9 +2,9 @@ import cx_Oracle, csv, json
 
 def insert_data_ora(p_directory, p_filename):
     db_params_ora = {
-        'user'      : 'jenkinsdb',
-        'password'  : 'sinatriaba',
-        'dsn'       : '192.168.56.1:1521/XE'
+        'user'      : 'giovanni',
+        'password'  : 'iamhuman',
+        'dsn'       : 'localhost:1521/XE'
     }
 
     try:
@@ -19,13 +19,13 @@ def insert_data_ora(p_directory, p_filename):
             next(reader, None)
             # Iterate over each row in the CSV file
             for row in reader:
-                id_transaksi, id_franchaise, franchaise, tanggal_transaksi, id_produk, nama_produk, jumlah_terjual, stock, discount, PPN, PPH4, PPH23, status_pembayaran, tanggal_pembayaran = row
+                id_transaksi, id_franchise, franchise, tanggal_transaksi, id_produk, nama_produk, jumlah_terjual, stock, discount, PPN, PPH4, PPH23, status_pembayaran, tanggal_pembayaran = row
                 # Perform the insert operation
                 query_ora   = """
                                 INSERT INTO transaksi_penjualan_retail (
                                     id_transaksi,
-                                    id_franchaise,
-                                    franchaise,
+                                    id_franchise,
+                                    franchise,
                                     tanggal_transaksi,
                                     id_produk,
                                     nama_produk,
@@ -40,8 +40,8 @@ def insert_data_ora(p_directory, p_filename):
                                 ) 
                                 VALUES (
                                     :id_transaksi,
-                                    :id_franchaise,
-                                    :franchaise,
+                                    :id_franchise,
+                                    :franchise,
                                     :tanggal_transaksi,
                                     :id_produk,
                                     :nama_produk,
@@ -55,8 +55,8 @@ def insert_data_ora(p_directory, p_filename):
                                     :tanggal_pembayaran
                                 )
                                 ON DUPLICATE KEY UPDATE 
-                                    id_franchaise       = :id_franchaise,
-                                    franchaise          = :franchaise,
+                                    id_franchise       = :id_franchise,
+                                    franchise          = :franchise,
                                     tanggal_transaksi   = :tanggal_transaksi,
                                     id_produk           = :id_produk,
                                     nama_produk         = :nama_produk,
@@ -71,8 +71,8 @@ def insert_data_ora(p_directory, p_filename):
                             """
                 v_body      = {
                     "id_transaksi"      : id_transaksi,
-                    "id_franchaise"     : id_franchaise,
-                    "franchaise"        : franchaise,
+                    "id_franchise"     : id_franchise,
+                    "franchise"        : franchise,
                     "tanggal_transaksi" : tanggal_transaksi,
                     "id_produk"         : id_produk,
                     "nama_produk"       : nama_produk,
@@ -104,9 +104,9 @@ def insert_data_ora(p_directory, p_filename):
 def cek_data_ora():
     # Database connection parameters
     db_params_ora = {
-        'user': 'jenkinsdb',
-        'password': 'sinatriaba',
-        'dsn': '192.168.56.1:1521/XE'
+        'user': 'giovanni',
+        'password': 'iamhuman',
+        'dsn': 'localhost:1521/XE'
     }
     # Create a list to store the names of offline jobs
     karyawan_ora  = []
@@ -120,8 +120,8 @@ def cek_data_ora():
         query_ora        = """
                             SELECT 
                                 id_transaksi,
-                                id_franchaise,
-                                franchaise,
+                                id_franchise,
+                                franchise,
                                 tanggal_transaksi,
                                 id_produk,
                                 nama_produk,
@@ -143,7 +143,7 @@ def cek_data_ora():
         records_ora     = cursor_ora.fetchall()
 
         for record in records_ora :
-            id_transaksi, id_franchaise, franchaise, tanggal_transaksi, id_produk, nama_produk, jumlah_terjual, stock, discount, PPN, PPH4, PPH23, status_pembayaran, tanggal_pembayaran = record
+            id_transaksi, id_franchise, franchise, tanggal_transaksi, id_produk, nama_produk, jumlah_terjual, stock, discount, PPN, PPH4, PPH23, status_pembayaran, tanggal_pembayaran = record
             if id_produk:
                 karyawan_ora.append(id_produk)
 
