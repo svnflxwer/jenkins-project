@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        LD_LIBRARY_PATH = '/var/lib/jenkins/instantclient_11_2'
-        ORACLE_HOME     = '/var/lib/jenkins/instantclient_11_2'
+        LD_LIBRARY_PATH = '/home/giovannih/oracle/instantclient_11_2'
+        ORACLE_HOME     = '/home/giovannih/oracle/instantclient_11_2'
     }
 
     stages {
@@ -27,8 +27,8 @@ pipeline {
                                             </p>
                                         </body>
                                     </html>""",
-                            to: "sinatria.b.adil@sat.co.id",
-                            replyTo: "sinatria.b.adil@sat.co.id",
+                            to: "giovanni.harrius@saat.co.id",
+                            replyTo: "giovanni.harrius@saat.co.id",
                             mimeType: 'text/html'
                         )}
                     }
@@ -60,8 +60,8 @@ pipeline {
                                             </p>
                                         </body>
                                     </html>""",
-                            to: "sinatria.b.adil@sat.co.id",
-                            replyTo: "sinatria.b.adil@sat.co.id",
+                            to: "giovanni.harrius@saat.co.id",
+                            replyTo: "giovanni.harrius@saat.co.id",
                             mimeType: 'text/html'
                         )}
                     }
@@ -101,8 +101,8 @@ pipeline {
                                             </p>
                                         </body>
                                     </html>""",
-                            to: "sinatria.b.adil@sat.co.id",
-                            replyTo: "sinatria.b.adil@sat.co.id",
+                            to: "giovanni.harrius@saat.co.id",
+                            replyTo: "giovanni.harrius@saat.co.id",
                             mimeType: 'text/html'
                         )}
                     }
@@ -161,8 +161,8 @@ pipeline {
                                             </p>
                                         </body>
                                     </html>""",
-                            to: "sinatria.b.adil@sat.co.id",
-                            replyTo: "sinatria.b.adil@sat.co.id",
+                            to: "giovanni.harrius@saat.co.id",
+                            replyTo: "giovanni.harrius@saat.co.id",
                             mimeType: 'text/html'
                         )}
                     }
@@ -215,8 +215,8 @@ pipeline {
                                             </p>
                                         </body>
                                     </html>""",
-                            to: "sinatria.b.adil@sat.co.id",
-                            replyTo: "sinatria.b.adil@sat.co.id",
+                            to: "giovanni.harrius@saat.co.id",
+                            replyTo: "giovanni.harrius@saat.co.id",
                             mimeType: 'text/html'
                         )}
                     }
