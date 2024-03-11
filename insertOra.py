@@ -2,9 +2,9 @@ import cx_Oracle, csv, json
 
 def insert_data_ora(p_directory, p_filename):
     db_params_ora = {
-        'user'      : 'jenkinsdb',
-        'password'  : 'sinatriaba',
-        'dsn'       : '192.168.56.1:1521/XE'
+        'user'      : 'giovanni',
+        'password'  : 'iamhuman',
+        'dsn'       : 'localhost:1521/XE'
     }
 
     try:
@@ -59,9 +59,9 @@ def insert_data_ora(p_directory, p_filename):
 def cek_data_ora():
     # Database connection parameters
     db_params_ora = {
-        'user': 'jenkinsdb',
-        'password': 'sinatriaba',
-        'dsn': '192.168.56.1:1521/XE'
+        'user'      : 'giovanni',
+        'password'  : 'iamhuman',
+        'dsn'       : 'localhost:1521/XE'
     }
     # Create a list to store the names of offline jobs
     karyawan_ora  = []

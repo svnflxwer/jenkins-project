@@ -19,9 +19,9 @@ def export_to_csv(p_data, p_filename, p_directory):
 def select_data_pg():
     # Database connection parameters
     db_params_pg = {
-        'database'  : 'dummydb',
+        'database'  : 'postgres',
         'user'      : 'postgres',
-        'password'  : 'sinatriaba',
+        'password'  : 'iamhuman',
         'host'      : 'localhost',
         'port'      : '5432'
     }
