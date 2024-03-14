@@ -118,7 +118,7 @@ pipeline {
             steps {
                 script {
                   // Run SQL script to create temporary table and insert data into Oracle
-                    sh "sqlplus -S ${ORA_USER}/${ORA_PASSWORD}@${ORA_DATABASE} @insertOra.sql"
+                    sh "sqlplusins -S ${ORA_USER}/${ORA_PASSWORD}@${ORA_DATABASE} @insertOra.sql"
 
                 }
             }
