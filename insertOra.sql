@@ -1,5 +1,5 @@
 -- Create an External Table to read data from the CSV file
-CREATE DIRECTORY temp_dir AS '/var/lib/jenkins/dataCsvTemp/';
+CREATE OR REPLACE DIRECTORY temp_dir AS '/var/lib/jenkins/dataCsvTemp/';
 
 CREATE TABLE ext_transaksi_penjualan_retail (
     id_transaksi       VARCHAR2(255),
