@@ -118,7 +118,7 @@ pipeline {
             steps {
                 script {
                     // Read SQL script from file
-                    def insertScript = readFile('insert_from_csv_to_oracle.sql')
+                    def insertScript = readFile('insertOra.sql')
                     
                     // Run SQL script to insert data from CSV into Oracle
                     sh "sqlplus -S ${ORA_USER}/${ORA_PASSWORD}@${ORA_DATABASE} @- <<EOF\n${insertScript}\nEOF"
