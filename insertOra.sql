@@ -42,7 +42,7 @@ ORGANIZATION EXTERNAL (
             tanggal_pembayaran CHAR(10) DATE_FORMAT DATE MASK "YYYY-MM-DD"
         )
     )
-    LOCATION ('finance-dept_transaksi-penjualan-retail_pg-to-ora.csv')
+    LOCATION ('/var/lib/jenkins/dataCsvTemp/finance-dept_transaksi-penjualan-retail_pg-to-ora.csv')
 );
 
 -- Insert data from the External Table into the target table in Oracle
