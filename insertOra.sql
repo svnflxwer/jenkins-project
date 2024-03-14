@@ -1,6 +1,15 @@
 -- Create an External Table to read data from the CSV file
 CREATE OR REPLACE DIRECTORY temp_dir AS '/var/lib/jenkins/dataCsvTemp/';
 
+BEGIN
+  EXECUTE IMMEDIATE 'DROP TABLE ext_transaksi_penjualan_retail';
+EXCEPTION
+  WHEN OTHERS THEN
+    IF SQLCODE != -942 THEN
+      RAISE;
+    END IF;
+END;
+
 CREATE TABLE ext_transaksi_penjualan_retail (
     id_transaksi       VARCHAR2(255),
     id_franchise       VARCHAR2(255),
