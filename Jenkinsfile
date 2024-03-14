@@ -117,11 +117,15 @@ pipeline {
         stage('Insert Data Oracle') {
             steps {
                 script {
-                    // Read SQL script from file
-                    def insertScript = readFile('insertOra.sql')
+                    sh'''
+                    export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}
+                    export ORACLE_HOME=${ORACLE_HOME}
+                    export PATH=${ORACLE_HOME}:${PATH}
+                    export TNS_ADMIN=${ORACLE_HOME}/network/ADMIN
                     
-                    // Run SQL script to insert data from CSV into Oracle
-                    sh "sqlplus -S ${ORACLE_USER}/${ORACLE_PASSWORD}@${ORACLE_SID} @- <<EOF\n${insertScript}\nEOF"
+                    
+                    ${ORACLE_HOME}/sqlplus -S ${ORACLE_USER}/${ORACLE_PASSWORD}@XE @${SQL_FILE_PATH}/insertOra.sql
+                    '''
                 }
             }
     
