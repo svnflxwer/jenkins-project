@@ -1,1 +1,1 @@
-\copy (SELECT * FROM transaksi_penjualan_retail) TO '/var/lib/jenkins/dataCsvTemp/finance-dept_transaksi-penjualan-retail_ora-to-pg.csv' WITH CSV HEADER;
+\copy (SELECT * FROM transaksi_penjualan_retail) TO '/var/lib/jenkins/dataCsvTemp/finance-dept_transaksi-penjualan-retail_pg-to-ora.csv' WITH CSV HEADER;
