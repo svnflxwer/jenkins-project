@@ -117,8 +117,10 @@ pipeline {
         stage('Insert Data Oracle') {
             steps {
                 script {
+                    def sqlScript = readFile('insertOra.sql')
+
                   // Run SQL script to create temporary table and insert data into Oracle
-                    sh "sqlplus -S ${ORACLE_USER}/${ORACLE_PASSWORD}@${ORACLE_SID} @insertOra.sql"
+                    sh "sqlplus -S ${ORACLE_USER}/${ORACLE_PASSWORD}@${ORACLE_SID} @\"${sqlScript}\""
 
                 }
             }
